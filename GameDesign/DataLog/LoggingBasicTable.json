@@ -1,0 +1,268 @@
+[
+  {
+    "DropTID": 3101,
+    "IndustryLevel": 1,
+    "ItemTID": 30001,
+    "Weight": 6590,
+    "Description": "잡목"
+  },
+  {
+    "DropTID": 3102,
+    "IndustryLevel": 1,
+    "ItemTID": 30002,
+    "Weight": 2000,
+    "Description": "소나무 목재"
+  },
+  {
+    "DropTID": 3103,
+    "IndustryLevel": 1,
+    "ItemTID": 30003,
+    "Weight": 1000,
+    "Description": "참나무 목재"
+  },
+  {
+    "DropTID": 3104,
+    "IndustryLevel": 1,
+    "ItemTID": 30004,
+    "Weight": 300,
+    "Description": "흑단 목재"
+  },
+  {
+    "DropTID": 3105,
+    "IndustryLevel": 1,
+    "ItemTID": 30005,
+    "Weight": 100,
+    "Description": "고급 원목"
+  },
+  {
+    "DropTID": 3106,
+    "IndustryLevel": 1,
+    "ItemTID": 30006,
+    "Weight": 10,
+    "Description": "세계수 가지"
+  },
+  {
+    "DropTID": 3201,
+    "IndustryLevel": 2,
+    "ItemTID": 30011,
+    "Weight": 6590,
+    "Description": "잔가지"
+  },
+  {
+    "DropTID": 3202,
+    "IndustryLevel": 2,
+    "ItemTID": 30012,
+    "Weight": 2000,
+    "Description": "삼나무 목재"
+  },
+  {
+    "DropTID": 3203,
+    "IndustryLevel": 2,
+    "ItemTID": 30013,
+    "Weight": 1000,
+    "Description": "편백나무 목재"
+  },
+  {
+    "DropTID": 3204,
+    "IndustryLevel": 2,
+    "ItemTID": 30014,
+    "Weight": 300,
+    "Description": "홍송 원목"
+  },
+  {
+    "DropTID": 3205,
+    "IndustryLevel": 2,
+    "ItemTID": 30015,
+    "Weight": 100,
+    "Description": "천년 소나무"
+  },
+  {
+    "DropTID": 3206,
+    "IndustryLevel": 2,
+    "ItemTID": 30016,
+    "Weight": 10,
+    "Description": "숲의 정령목"
+  },
+  {
+    "DropTID": 3207,
+    "IndustryLevel": 2,
+    "ItemTID": 30001,
+    "Weight": 1000,
+    "Description": "잡목 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 3208,
+    "IndustryLevel": 2,
+    "ItemTID": 30002,
+    "Weight": 300,
+    "Description": "소나무 목재 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 3301,
+    "IndustryLevel": 3,
+    "ItemTID": 30021,
+    "Weight": 6590,
+    "Description": "도토리 가지"
+  },
+  {
+    "DropTID": 3302,
+    "IndustryLevel": 3,
+    "ItemTID": 30022,
+    "Weight": 2000,
+    "Description": "너도밤나무 목재"
+  },
+  {
+    "DropTID": 3303,
+    "IndustryLevel": 3,
+    "ItemTID": 30023,
+    "Weight": 1000,
+    "Description": "단풍나무 목재"
+  },
+  {
+    "DropTID": 3304,
+    "IndustryLevel": 3,
+    "ItemTID": 30024,
+    "Weight": 300,
+    "Description": "고목의 심재"
+  },
+  {
+    "DropTID": 3305,
+    "IndustryLevel": 3,
+    "ItemTID": 30025,
+    "Weight": 100,
+    "Description": "백년 참나무"
+  },
+  {
+    "DropTID": 3306,
+    "IndustryLevel": 3,
+    "ItemTID": 30026,
+    "Weight": 10,
+    "Description": "대지의 뿌리"
+  },
+  {
+    "DropTID": 3307,
+    "IndustryLevel": 3,
+    "ItemTID": 30001,
+    "Weight": 700,
+    "Description": "잡목 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 3308,
+    "IndustryLevel": 3,
+    "ItemTID": 30002,
+    "Weight": 200,
+    "Description": "소나무 목재 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 3401,
+    "IndustryLevel": 4,
+    "ItemTID": 30031,
+    "Weight": 6590,
+    "Description": "그을린 통나무"
+  },
+  {
+    "DropTID": 3402,
+    "IndustryLevel": 4,
+    "ItemTID": 30032,
+    "Weight": 2000,
+    "Description": "흑참나무 목재"
+  },
+  {
+    "DropTID": 3403,
+    "IndustryLevel": 4,
+    "ItemTID": 30033,
+    "Weight": 1000,
+    "Description": "자단 목재"
+  },
+  {
+    "DropTID": 3404,
+    "IndustryLevel": 4,
+    "ItemTID": 30034,
+    "Weight": 300,
+    "Description": "마력 깃든 목재"
+  },
+  {
+    "DropTID": 3405,
+    "IndustryLevel": 4,
+    "ItemTID": 30035,
+    "Weight": 100,
+    "Description": "흑림의 고목"
+  },
+  {
+    "DropTID": 3406,
+    "IndustryLevel": 4,
+    "ItemTID": 30036,
+    "Weight": 10,
+    "Description": "어둠나무의 핵"
+  },
+  {
+    "DropTID": 3407,
+    "IndustryLevel": 4,
+    "ItemTID": 30001,
+    "Weight": 400,
+    "Description": "잡목 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 3408,
+    "IndustryLevel": 4,
+    "ItemTID": 30002,
+    "Weight": 100,
+    "Description": "소나무 목재 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 3501,
+    "IndustryLevel": 5,
+    "ItemTID": 30041,
+    "Weight": 6590,
+    "Description": "세계수 껍질"
+  },
+  {
+    "DropTID": 3502,
+    "IndustryLevel": 5,
+    "ItemTID": 30042,
+    "Weight": 2000,
+    "Description": "빛나는 수액"
+  },
+  {
+    "DropTID": 3503,
+    "IndustryLevel": 5,
+    "ItemTID": 30043,
+    "Weight": 1000,
+    "Description": "신목 목재"
+  },
+  {
+    "DropTID": 3504,
+    "IndustryLevel": 5,
+    "ItemTID": 30044,
+    "Weight": 300,
+    "Description": "영원의 나이테"
+  },
+  {
+    "DropTID": 3505,
+    "IndustryLevel": 5,
+    "ItemTID": 30045,
+    "Weight": 100,
+    "Description": "세계수 심재"
+  },
+  {
+    "DropTID": 3506,
+    "IndustryLevel": 5,
+    "ItemTID": 30046,
+    "Weight": 10,
+    "Description": "창세목의 조각"
+  },
+  {
+    "DropTID": 3507,
+    "IndustryLevel": 5,
+    "ItemTID": 30001,
+    "Weight": 200,
+    "Description": "잡목 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 3508,
+    "IndustryLevel": 5,
+    "ItemTID": 30002,
+    "Weight": 50,
+    "Description": "소나무 목재 — Lv1 하위 혼입"
+  }
+]

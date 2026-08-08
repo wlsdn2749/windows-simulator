@@ -1,0 +1,16 @@
+<Solution>
+  <!-- 게임과 무관한 재사용 네트워크 프레임워크. 게임 코드(MikaProtocol·GameData·WSGameServer)는 밖에 둔다. -->
+  <Folder Name="/MikaNetwork.Lib/">
+    <Project Path="MikaNetwork.Lib/MikaNetwork.Client/MikaNetwork.Client.csproj" />
+    <Project Path="MikaNetwork.Lib/MikaNetwork.Core/MikaNetwork.Core.csproj" />
+    <Project Path="MikaNetwork.Lib/MikaNetwork.Server/MikaNetwork.Server.csproj" />
+    <Project Path="MikaNetwork.Lib/MikaSourceGen/MikaSourceGen.csproj" />
+    <Project Path="MikaNetwork.Lib/MikaUtils/MikaUtils.csproj" />
+  </Folder>
+  <Project Path="ExcelGenerator/ExcelGenerator.csproj" />
+  <Project Path="GameData/GameData.csproj" />
+  <Project Path="MikaDummyClient/MikaDummyClient.csproj" />
+  <Project Path="MikaProtocol/MikaProtocol.csproj" />
+  <Project Path="WSGameServer.Tests/WSGameServer.Tests.csproj" />
+  <Project Path="WSGameServer/WSGameServer.csproj" />
+</Solution>

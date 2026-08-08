@@ -1,0 +1,268 @@
+[
+  {
+    "DropTID": 2101,
+    "IndustryLevel": 1,
+    "ItemTID": 20001,
+    "Weight": 6590,
+    "Description": "밀"
+  },
+  {
+    "DropTID": 2102,
+    "IndustryLevel": 1,
+    "ItemTID": 20002,
+    "Weight": 2000,
+    "Description": "감자"
+  },
+  {
+    "DropTID": 2103,
+    "IndustryLevel": 1,
+    "ItemTID": 20003,
+    "Weight": 1000,
+    "Description": "옥수수"
+  },
+  {
+    "DropTID": 2104,
+    "IndustryLevel": 1,
+    "ItemTID": 20004,
+    "Weight": 300,
+    "Description": "인삼"
+  },
+  {
+    "DropTID": 2105,
+    "IndustryLevel": 1,
+    "ItemTID": 20005,
+    "Weight": 100,
+    "Description": "변종 인삼"
+  },
+  {
+    "DropTID": 2106,
+    "IndustryLevel": 1,
+    "ItemTID": 20006,
+    "Weight": 10,
+    "Description": "태초의 씨앗"
+  },
+  {
+    "DropTID": 2201,
+    "IndustryLevel": 2,
+    "ItemTID": 20011,
+    "Weight": 6590,
+    "Description": "보리"
+  },
+  {
+    "DropTID": 2202,
+    "IndustryLevel": 2,
+    "ItemTID": 20012,
+    "Weight": 2000,
+    "Description": "고구마"
+  },
+  {
+    "DropTID": 2203,
+    "IndustryLevel": 2,
+    "ItemTID": 20013,
+    "Weight": 1000,
+    "Description": "호박"
+  },
+  {
+    "DropTID": 2204,
+    "IndustryLevel": 2,
+    "ItemTID": 20014,
+    "Weight": 300,
+    "Description": "백년초"
+  },
+  {
+    "DropTID": 2205,
+    "IndustryLevel": 2,
+    "ItemTID": 20015,
+    "Weight": 100,
+    "Description": "황금 호박"
+  },
+  {
+    "DropTID": 2206,
+    "IndustryLevel": 2,
+    "ItemTID": 20016,
+    "Weight": 10,
+    "Description": "불멸의 뿌리"
+  },
+  {
+    "DropTID": 2207,
+    "IndustryLevel": 2,
+    "ItemTID": 20001,
+    "Weight": 1000,
+    "Description": "밀 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 2208,
+    "IndustryLevel": 2,
+    "ItemTID": 20002,
+    "Weight": 300,
+    "Description": "감자 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 2301,
+    "IndustryLevel": 3,
+    "ItemTID": 20021,
+    "Weight": 6590,
+    "Description": "벼"
+  },
+  {
+    "DropTID": 2302,
+    "IndustryLevel": 3,
+    "ItemTID": 20022,
+    "Weight": 2000,
+    "Description": "콩"
+  },
+  {
+    "DropTID": 2303,
+    "IndustryLevel": 3,
+    "ItemTID": 20023,
+    "Weight": 1000,
+    "Description": "딸기"
+  },
+  {
+    "DropTID": 2304,
+    "IndustryLevel": 3,
+    "ItemTID": 20024,
+    "Weight": 300,
+    "Description": "산삼"
+  },
+  {
+    "DropTID": 2305,
+    "IndustryLevel": 3,
+    "ItemTID": 20025,
+    "Weight": 100,
+    "Description": "천년 산삼"
+  },
+  {
+    "DropTID": 2306,
+    "IndustryLevel": 3,
+    "ItemTID": 20026,
+    "Weight": 10,
+    "Description": "생명의 열매"
+  },
+  {
+    "DropTID": 2307,
+    "IndustryLevel": 3,
+    "ItemTID": 20001,
+    "Weight": 700,
+    "Description": "밀 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 2308,
+    "IndustryLevel": 3,
+    "ItemTID": 20002,
+    "Weight": 200,
+    "Description": "감자 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 2401,
+    "IndustryLevel": 4,
+    "ItemTID": 20031,
+    "Weight": 6590,
+    "Description": "목화"
+  },
+  {
+    "DropTID": 2402,
+    "IndustryLevel": 4,
+    "ItemTID": 20032,
+    "Weight": 2000,
+    "Description": "사탕수수"
+  },
+  {
+    "DropTID": 2403,
+    "IndustryLevel": 4,
+    "ItemTID": 20033,
+    "Weight": 1000,
+    "Description": "커피 열매"
+  },
+  {
+    "DropTID": 2404,
+    "IndustryLevel": 4,
+    "ItemTID": 20034,
+    "Weight": 300,
+    "Description": "흑진주 포도"
+  },
+  {
+    "DropTID": 2405,
+    "IndustryLevel": 4,
+    "ItemTID": 20035,
+    "Weight": 100,
+    "Description": "무지개 밀"
+  },
+  {
+    "DropTID": 2406,
+    "IndustryLevel": 4,
+    "ItemTID": 20036,
+    "Weight": 10,
+    "Description": "세계수의 씨앗"
+  },
+  {
+    "DropTID": 2407,
+    "IndustryLevel": 4,
+    "ItemTID": 20001,
+    "Weight": 400,
+    "Description": "밀 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 2408,
+    "IndustryLevel": 4,
+    "ItemTID": 20002,
+    "Weight": 100,
+    "Description": "감자 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 2501,
+    "IndustryLevel": 5,
+    "ItemTID": 20041,
+    "Weight": 6590,
+    "Description": "정화된 흙"
+  },
+  {
+    "DropTID": 2502,
+    "IndustryLevel": 5,
+    "ItemTID": 20042,
+    "Weight": 2000,
+    "Description": "성스러운 이삭"
+  },
+  {
+    "DropTID": 2503,
+    "IndustryLevel": 5,
+    "ItemTID": 20043,
+    "Weight": 1000,
+    "Description": "영약초"
+  },
+  {
+    "DropTID": 2504,
+    "IndustryLevel": 5,
+    "ItemTID": 20044,
+    "Weight": 300,
+    "Description": "신월초"
+  },
+  {
+    "DropTID": 2505,
+    "IndustryLevel": 5,
+    "ItemTID": 20045,
+    "Weight": 100,
+    "Description": "신들의 곡식"
+  },
+  {
+    "DropTID": 2506,
+    "IndustryLevel": 5,
+    "ItemTID": 20046,
+    "Weight": 10,
+    "Description": "창세의 열매"
+  },
+  {
+    "DropTID": 2507,
+    "IndustryLevel": 5,
+    "ItemTID": 20001,
+    "Weight": 200,
+    "Description": "밀 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 2508,
+    "IndustryLevel": 5,
+    "ItemTID": 20002,
+    "Weight": 50,
+    "Description": "감자 — Lv1 하위 혼입"
+  }
+]

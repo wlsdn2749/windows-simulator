@@ -1,0 +1,50 @@
+[
+  {
+    "GachaTID": 1001,
+    "GachaId": 1,
+    "ItemTID": 100001,
+    "Count": 1,
+    "Weight": 640,
+    "Description": "일반"
+  },
+  {
+    "GachaTID": 1002,
+    "GachaId": 1,
+    "ItemTID": 100002,
+    "Count": 1,
+    "Weight": 200,
+    "Description": "고급"
+  },
+  {
+    "GachaTID": 1003,
+    "GachaId": 1,
+    "ItemTID": 100003,
+    "Count": 1,
+    "Weight": 100,
+    "Description": "희귀"
+  },
+  {
+    "GachaTID": 1004,
+    "GachaId": 1,
+    "ItemTID": 100004,
+    "Count": 1,
+    "Weight": 40,
+    "Description": "영웅"
+  },
+  {
+    "GachaTID": 1005,
+    "GachaId": 1,
+    "ItemTID": 100005,
+    "Count": 1,
+    "Weight": 15,
+    "Description": "전설"
+  },
+  {
+    "GachaTID": 1006,
+    "GachaId": 1,
+    "ItemTID": 100006,
+    "Count": 1,
+    "Weight": 5,
+    "Description": "신화"
+  }
+]

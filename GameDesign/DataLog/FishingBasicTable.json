@@ -1,0 +1,268 @@
+[
+  {
+    "DropTID": 1101,
+    "IndustryLevel": 1,
+    "ItemTID": 10001,
+    "Weight": 6590,
+    "Description": "붕어"
+  },
+  {
+    "DropTID": 1102,
+    "IndustryLevel": 1,
+    "ItemTID": 10002,
+    "Weight": 2000,
+    "Description": "잉어"
+  },
+  {
+    "DropTID": 1103,
+    "IndustryLevel": 1,
+    "ItemTID": 10003,
+    "Weight": 1000,
+    "Description": "월척 붕어"
+  },
+  {
+    "DropTID": 1104,
+    "IndustryLevel": 1,
+    "ItemTID": 10004,
+    "Weight": 300,
+    "Description": "향어"
+  },
+  {
+    "DropTID": 1105,
+    "IndustryLevel": 1,
+    "ItemTID": 10005,
+    "Weight": 100,
+    "Description": "대물 잉어"
+  },
+  {
+    "DropTID": 1106,
+    "IndustryLevel": 1,
+    "ItemTID": 10006,
+    "Weight": 10,
+    "Description": "전설의 잉어"
+  },
+  {
+    "DropTID": 1201,
+    "IndustryLevel": 2,
+    "ItemTID": 10011,
+    "Weight": 6590,
+    "Description": "피라미"
+  },
+  {
+    "DropTID": 1202,
+    "IndustryLevel": 2,
+    "ItemTID": 10012,
+    "Weight": 2000,
+    "Description": "메기"
+  },
+  {
+    "DropTID": 1203,
+    "IndustryLevel": 2,
+    "ItemTID": 10013,
+    "Weight": 1000,
+    "Description": "가물치"
+  },
+  {
+    "DropTID": 1204,
+    "IndustryLevel": 2,
+    "ItemTID": 10014,
+    "Weight": 300,
+    "Description": "백년 메기"
+  },
+  {
+    "DropTID": 1205,
+    "IndustryLevel": 2,
+    "ItemTID": 10015,
+    "Weight": 100,
+    "Description": "저수지의 주인"
+  },
+  {
+    "DropTID": 1206,
+    "IndustryLevel": 2,
+    "ItemTID": 10016,
+    "Weight": 10,
+    "Description": "용왕의 사자"
+  },
+  {
+    "DropTID": 1207,
+    "IndustryLevel": 2,
+    "ItemTID": 10001,
+    "Weight": 1000,
+    "Description": "붕어 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 1208,
+    "IndustryLevel": 2,
+    "ItemTID": 10002,
+    "Weight": 300,
+    "Description": "잉어 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 1301,
+    "IndustryLevel": 3,
+    "ItemTID": 10021,
+    "Weight": 6590,
+    "Description": "모래무지"
+  },
+  {
+    "DropTID": 1302,
+    "IndustryLevel": 3,
+    "ItemTID": 10022,
+    "Weight": 2000,
+    "Description": "쏘가리"
+  },
+  {
+    "DropTID": 1303,
+    "IndustryLevel": 3,
+    "ItemTID": 10023,
+    "Weight": 1000,
+    "Description": "황금 잉어"
+  },
+  {
+    "DropTID": 1304,
+    "IndustryLevel": 3,
+    "ItemTID": 10024,
+    "Weight": 300,
+    "Description": "강의 수호자"
+  },
+  {
+    "DropTID": 1305,
+    "IndustryLevel": 3,
+    "ItemTID": 10025,
+    "Weight": 100,
+    "Description": "천년 쏘가리"
+  },
+  {
+    "DropTID": 1306,
+    "IndustryLevel": 3,
+    "ItemTID": 10026,
+    "Weight": 10,
+    "Description": "강신의 비늘"
+  },
+  {
+    "DropTID": 1307,
+    "IndustryLevel": 3,
+    "ItemTID": 10001,
+    "Weight": 700,
+    "Description": "붕어 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 1308,
+    "IndustryLevel": 3,
+    "ItemTID": 10002,
+    "Weight": 200,
+    "Description": "잉어 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 1401,
+    "IndustryLevel": 4,
+    "ItemTID": 10031,
+    "Weight": 6590,
+    "Description": "빙어"
+  },
+  {
+    "DropTID": 1402,
+    "IndustryLevel": 4,
+    "ItemTID": 10032,
+    "Weight": 2000,
+    "Description": "송어"
+  },
+  {
+    "DropTID": 1403,
+    "IndustryLevel": 4,
+    "ItemTID": 10033,
+    "Weight": 1000,
+    "Description": "무지개 송어"
+  },
+  {
+    "DropTID": 1404,
+    "IndustryLevel": 4,
+    "ItemTID": 10034,
+    "Weight": 300,
+    "Description": "호수의 눈"
+  },
+  {
+    "DropTID": 1405,
+    "IndustryLevel": 4,
+    "ItemTID": 10035,
+    "Weight": 100,
+    "Description": "심층 대어"
+  },
+  {
+    "DropTID": 1406,
+    "IndustryLevel": 4,
+    "ItemTID": 10036,
+    "Weight": 10,
+    "Description": "호수의 심장"
+  },
+  {
+    "DropTID": 1407,
+    "IndustryLevel": 4,
+    "ItemTID": 10001,
+    "Weight": 400,
+    "Description": "붕어 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 1408,
+    "IndustryLevel": 4,
+    "ItemTID": 10002,
+    "Weight": 100,
+    "Description": "잉어 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 1501,
+    "IndustryLevel": 5,
+    "ItemTID": 10041,
+    "Weight": 6590,
+    "Description": "심해 새우"
+  },
+  {
+    "DropTID": 1502,
+    "IndustryLevel": 5,
+    "ItemTID": 10042,
+    "Weight": 2000,
+    "Description": "아귀"
+  },
+  {
+    "DropTID": 1503,
+    "IndustryLevel": 5,
+    "ItemTID": 10043,
+    "Weight": 1000,
+    "Description": "심해 등불고기"
+  },
+  {
+    "DropTID": 1504,
+    "IndustryLevel": 5,
+    "ItemTID": 10044,
+    "Weight": 300,
+    "Description": "대왕오징어"
+  },
+  {
+    "DropTID": 1505,
+    "IndustryLevel": 5,
+    "ItemTID": 10045,
+    "Weight": 100,
+    "Description": "해구의 지배자"
+  },
+  {
+    "DropTID": 1506,
+    "IndustryLevel": 5,
+    "ItemTID": 10046,
+    "Weight": 10,
+    "Description": "리바이어던의 조각"
+  },
+  {
+    "DropTID": 1507,
+    "IndustryLevel": 5,
+    "ItemTID": 10001,
+    "Weight": 200,
+    "Description": "붕어 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 1508,
+    "IndustryLevel": 5,
+    "ItemTID": 10002,
+    "Weight": 50,
+    "Description": "잉어 — Lv1 하위 혼입"
+  }
+]

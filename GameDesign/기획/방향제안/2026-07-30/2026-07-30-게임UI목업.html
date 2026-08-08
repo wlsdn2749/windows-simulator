@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>게임 UI 목업 v2 — 종합 제안 반영</title>
+<style>
+  :root{
+    /* 희귀도 색상 — GameDesign/Excel/Enum.xlsx 원본 */
+    --r1:#9D9D9D; --r2:#1EFF00; --r3:#0070DD; --r4:#A335EE; --r5:#FF8000; --r6:#E6CC80;
+    --gold:#e0b45c; --gold-d:#a8762e; --gold-l:#f6dfa4;
+    --frame:#2e1b12; --panel:#1c1512; --panel2:#261c18;
+    --slot:#120e0d; --slot-b:#42352c;
+    --red:#8f1d22; --red-d:#5c1216;
+    --txt:#e6d9c6; --dim:#95836f; --off:#5f5245; --ok:#6fbf73; --bad:#c98a5a;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:#000;color:var(--txt);overflow:hidden;
+    font:12px/1.45 "Malgun Gothic","맑은 고딕",system-ui,sans-serif}
+  .num{font-family:Consolas,monospace;font-variant-numeric:tabular-nums}
+
+  /* ═══ 데스크톱 셸 ═══ */
+  .app{height:100vh;display:flex;flex-direction:column;background:#000}
+  .ctl{flex:none;display:flex;gap:5px;align-items:center;padding:6px 8px;
+    border-bottom:1px solid #1a1512;flex-wrap:wrap}
+  .ctl .lb{font-size:10px;color:var(--off);text-transform:uppercase;letter-spacing:.8px}
+  .ctl button{padding:3px 10px;font-size:11px;cursor:pointer;font-family:inherit;
+    background:var(--panel2);color:var(--txt);border:1px solid var(--slot-b);border-radius:2px}
+  .ctl button:hover{background:#3a2a1c}
+  .ctl button.on{border-color:var(--gold);background:#3a2a1c;color:var(--gold-l)}
+  .ctl .sep{width:1px;height:16px;background:#2a2320;margin:0 3px}
+
+  .desk{flex:1;min-height:0;position:relative;background:#000;overflow:hidden}
+  .dicons{position:absolute;top:10px;left:10px;display:grid;gap:10px;opacity:.22}
+  .dicon{width:38px;text-align:center;font-size:9px;color:#8fa8bd}
+  .dicon i{display:block;width:28px;height:22px;margin:0 auto 2px;border-radius:3px;
+    background:#43606f;font-style:normal}
+  .taskbar{position:absolute;left:0;right:0;bottom:0;height:34px;background:#07090c;
+    border-top:1px solid #1e2732;display:flex;align-items:center;gap:6px;padding:0 10px;z-index:40}
+  .tb-btn{width:20px;height:20px;border-radius:4px;background:#233247;flex:none}
+  .tb-app{padding:3px 9px;font-size:10.5px;color:#8ea3b8;background:#111a24;
+    border:1px solid #24313f;border-radius:3px;cursor:pointer;white-space:nowrap}
+  .tb-app.on{color:var(--gold-l);border-color:var(--gold-d);background:#241a14}
+  .tb-clock{margin-left:auto;color:#5c6b7d;font-size:11px}
+
+  /* ═══ 창 프레임 ═══ */
+  .win{display:flex;flex-direction:column;background:var(--panel);
+    border:2px solid var(--gold-d);border-radius:3px;
+    box-shadow:inset 0 0 0 2px var(--frame),0 10px 30px #000d}
+  .win.solo{position:absolute}
+  .hide{display:none !important}
+  .banner{flex:none;background:linear-gradient(180deg,var(--red),var(--red-d));
+    border-bottom:2px solid var(--gold-d);padding:4px 9px;display:flex;align-items:center;gap:6px;
+    font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold-l);
+    font-size:11px;text-shadow:0 1px 0 #000;cursor:move;user-select:none}
+  .banner .x{margin-left:auto;opacity:.75;cursor:pointer;letter-spacing:0}
+  .body{padding:7px 8px;flex:1;min-height:0;position:relative;display:flex;flex-direction:column}
+  .scroll{overflow-y:auto;min-height:0}
+  .scroll::-webkit-scrollbar{width:7px}
+  .scroll::-webkit-scrollbar-thumb{background:#3a2c22;border-radius:3px}
+  .scroll::-webkit-scrollbar-track{background:#0c0908}
+
+  .tabs{flex:none;display:flex;border-bottom:2px solid var(--gold-d);background:#150f0d}
+  .tab{flex:1;padding:4px 2px;text-align:center;font-size:10.5px;font-weight:700;
+    letter-spacing:.6px;color:var(--off);cursor:pointer;border-right:1px solid #3a2c22}
+  .tab:last-child{border-right:0}
+  .tab.on{color:var(--gold-l);background:linear-gradient(180deg,#4a2c1c,#2e1b12)}
+  .pane{display:none;flex:1;min-height:0;flex-direction:column}
+  .pane.on{display:flex}
+  .miniban{flex:none;font-size:9.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.9px;
+    border-bottom:1px solid #3a2c22;padding-bottom:2px;margin:6px 0 5px}
+  .miniban:first-child{margin-top:0}
+  .miniban .r{float:right;text-transform:none;letter-spacing:0}
+
+  /* ═══ 왼쪽 창 — 격자(위 절반) + 정보(아래 절반) ═══ */
+  .halfgrid{flex:1 1 50%;min-height:0}
+  .halfinfo{flex:1 1 50%;min-height:0;border-top:1px solid #3a2c22;margin-top:6px;padding-top:5px}
+  .grid6{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+  .cell{aspect-ratio:1;background:var(--slot);border:2px solid var(--slot-b);border-radius:2px;
+    position:relative;display:grid;place-items:center;font-size:13px;cursor:pointer}
+  .cell:hover{background:#241a14}
+  .cell.sel{outline:1px solid var(--gold);outline-offset:1px}
+  .cell .q{position:absolute;bottom:-1px;right:1px;font-size:8px;color:#fff;
+    text-shadow:0 0 3px #000,0 0 3px #000}
+  .cell .lv{position:absolute;bottom:-1px;left:1px;font-size:8px;color:var(--gold);
+    background:#000c;padding:0 2px;border-radius:2px}
+  .cell .on{position:absolute;top:1px;right:2px;font-size:8px;color:var(--ok)}
+  .cell.empty{cursor:default}.cell.empty:hover{background:var(--slot)}
+  .cell.r1{border-color:var(--r1)}.cell.r2{border-color:var(--r2)}
+  .cell.r3{border-color:var(--r3)}.cell.r4{border-color:var(--r4)}
+  .cell.r5{border-color:var(--r5)}.cell.r6{border-color:var(--r6)}
+
+  .ihead{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+  .ihead .big{width:34px;height:34px;flex:none;background:var(--slot);border:2px solid var(--slot-b);
+    border-radius:2px;display:grid;place-items:center;font-size:17px}
+  .ihead .t b{display:block;font-size:12.5px;color:var(--gold-l)}
+  .ihead .t span{font-size:9.5px;color:var(--dim)}
+  .stat{display:flex;justify-content:space-between;font-size:11px;
+    border-bottom:1px dotted #3a2c22;padding:2px 0}
+  .stat b{color:var(--gold-l)}
+  .expbar{height:5px;background:#000;border:1px solid #2a2320;margin:3px 0 5px}
+  .expbar i{display:block;height:100%;background:linear-gradient(90deg,#4a7fbf,#8ec4ef)}
+  .apt{display:flex;align-items:center;gap:5px;margin:2px 0}
+  .apt .n{width:26px;font-size:10px;color:var(--dim);flex:none}
+  .apt .track{flex:1;height:7px;background:#0c0908;border:1px solid #3a2c22;
+    display:flex;gap:1px;padding:1px}
+  .apt .track i{flex:1;background:#221b18}
+  .apt .track i.f{background:linear-gradient(180deg,#e0b45c,#a8762e)}
+  .apt .v{width:42px;text-align:right;font-size:9.5px;color:var(--gold);flex:none}
+  .apt.zero .v{color:var(--bad)}
+  .equip{display:flex;gap:4px;margin:5px 0 2px}
+  .eslot{flex:1;aspect-ratio:1;background:var(--slot);border:2px solid var(--slot-b);
+    border-radius:2px;display:grid;place-items:center;position:relative;font-size:14px}
+  .eslot .tag{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:7px;color:var(--off)}
+  .eslot.f1{border-color:var(--r1)}.eslot.f2{border-color:var(--r2)}
+  .eslot.f3{border-color:var(--r3)}.eslot.f4{border-color:var(--r4)}
+  .eslot.f5{border-color:var(--r5)}.eslot.f6{border-color:var(--r6)}
+  .acts{display:flex;gap:4px;margin-top:6px}
+  .btn{padding:3px 8px;font-size:9.5px;font-weight:700;cursor:pointer;font-family:inherit;
+    background:linear-gradient(180deg,#4a2c1c,#2e1b12);color:var(--gold-l);
+    border:1px solid var(--gold-d);border-radius:2px;flex:none}
+  .btn:hover{background:linear-gradient(180deg,#5e3a24,#3c2418)}
+  .btn.wide{flex:1;text-align:center}
+  .btn.sell{border-color:#7a3f3f;color:#e8b0b0}
+
+  /* ═══ 특성창 — 상단 액티브 4칸 + 하단 트리 ═══ */
+  .actrow{flex:none;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+  .act{background:var(--slot);border:2px solid var(--slot-b);border-radius:2px;padding:4px 2px 3px;
+    text-align:center;cursor:pointer;position:relative}
+  .act i{display:block;font-size:15px;font-style:normal;line-height:1.1}
+  .act span{display:block;font-size:8.5px;color:var(--dim);margin-top:1px}
+  .act b{display:block;font-size:8.5px;color:var(--gold);font-weight:600}
+  .act.live{border-color:var(--ok);background:#12200f}
+  .act.live b{color:var(--ok)}
+  .act.spent{opacity:.5}
+  .act.lock{border-style:dashed;cursor:default;opacity:.5}
+  .act.lock i{filter:grayscale(1)}
+  .ptline{flex:none;font-size:9.5px;color:var(--dim);margin:6px 0 3px;display:flex}
+  .ptline b{color:var(--gold-l);margin-left:auto}
+
+  .tree{position:relative;margin:2px auto 8px;width:284px}
+  .tree svg{position:absolute;inset:0;pointer-events:none}
+  .tnode{position:absolute;width:46px;height:46px;margin-left:-23px;
+    background:linear-gradient(180deg,#3b2a1a,#221812);border:2px solid #7a5a2e;border-radius:3px;
+    display:grid;place-items:center;font-size:19px;cursor:pointer;z-index:2}
+  .tnode:hover{border-color:var(--gold-l)}
+  .tnode .rk{position:absolute;bottom:-2px;right:1px;font-size:8px;color:var(--gold-l);
+    background:#000d;padding:0 2px;border-radius:2px}
+  .tnode.max{border-color:var(--gold);box-shadow:0 0 7px #e0b45c55}
+  .tnode.none{border-color:#3a2c22;background:#141010;filter:grayscale(.7);opacity:.65}
+  .tnode.lock{border-style:dashed;border-color:#3a2c22;background:#100d0c;opacity:.4}
+
+  #tip{position:fixed;z-index:80;display:none;max-width:210px;background:#0b0908f8;
+    border:1px solid var(--gold-d);border-radius:3px;padding:6px 8px;pointer-events:none;
+    box-shadow:0 6px 18px #000c}
+  #tip b{display:block;color:var(--gold-l);font-size:11.5px}
+  #tip .k{color:var(--dim);font-size:9.5px}
+  #tip .e{color:var(--ok);font-size:10.5px;margin-top:3px}
+  #tip .lk{color:var(--bad);font-size:10px;margin-top:3px}
+
+  /* ═══ 중앙 스택 — 상단바 + 창 + 하단 버튼 ═══ */
+  /* 본체(.win) 높이는 좌·우 창과 같고, 상단바·하단 버튼이 그 위아래로 더 붙는다 */
+  .stack{position:absolute;display:flex;flex-direction:column;align-items:stretch}
+  .stack>.win{flex:none}
+
+  .topbar{flex:none;display:flex;align-items:center;gap:8px;padding:3px 8px;
+    background:linear-gradient(180deg,#191310,#0d0a09);border:2px solid var(--gold-d);
+    border-bottom:0;border-radius:4px 4px 0 0}
+  .owner{display:flex;align-items:center;gap:5px;cursor:pointer}
+  .ring{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;
+    background:conic-gradient(#8ec4ef var(--exp),#241a14 0);position:relative}
+  .ring::before{content:"";position:absolute;inset:3px;border-radius:50%;background:#241a14;
+    border:1px solid #6b4a10}
+  .ring .face{position:relative;font-size:16px}
+  .owner .oi b{display:block;font-size:10px;color:var(--gold-l);line-height:1.2}
+  .owner .oi span{font-size:9px;color:var(--dim)}
+  .wallet{display:flex;align-items:center;gap:4px;padding:2px 7px;background:#0c0908;
+    border:1px solid #3a2c22;border-radius:999px}
+  .coin{width:12px;height:12px;border-radius:50%;flex:none;border:1px solid #6b4a10;
+    background:radial-gradient(circle at 35% 30%,#ffe9a8,#d99f2b 60%,#8a5f16)}
+  .wallet b{color:var(--gold-l);font-size:11.5px}
+  .sysicons{margin-left:auto;display:flex;gap:3px}
+  .sysicons span{width:19px;height:19px;display:grid;place-items:center;font-size:10.5px;
+    background:#1d1512;border:1px solid #3a2c22;border-radius:2px;color:var(--dim);cursor:pointer}
+  .sysicons span:hover{color:var(--gold-l);border-color:var(--gold-d)}
+
+  /* 하단 버튼 줄 — 창 바깥이 아니라 본체 안쪽 아래에 붙는다 */
+  .hexrow{flex:none;display:flex;gap:5px;justify-content:center;padding:6px 8px 5px;
+    margin-top:6px;background:linear-gradient(180deg,#0d0a09,#191310);
+    border:1px solid #3a2c22;border-radius:3px}
+  .hex{width:44px;padding:4px 0 3px;text-align:center;cursor:pointer;
+    background:linear-gradient(180deg,#4a2c1c,#2a1a12);border:1px solid var(--gold-d);
+    clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+  .hex:hover{background:linear-gradient(180deg,#66412a,#3a2418)}
+  .hex i{display:block;font-size:14px;font-style:normal;line-height:1.1}
+  .hex span{display:block;font-size:8px;color:var(--gold-l);margin-top:1px}
+  .hex.off{background:#151110;border-color:#332720;cursor:default;opacity:.45}
+  .hex.off span{color:var(--off)}
+
+  /* ═══ 작업슬롯 — 텍스트 위 / 무대 중간 / 게이지 아래 ═══ */
+  .wsgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+  .ws{background:var(--slot);border:2px solid var(--slot-b);border-radius:2px;
+    padding:4px 5px 5px;position:relative;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+  .ws.open{min-height:152px}
+  .ws:hover{border-color:var(--gold-d)}
+  .ws.sel{border-color:var(--gold)}
+  .ws-head{display:flex;align-items:baseline;gap:4px}
+  .ws-head .ind{font-size:11.5px;font-weight:700;color:var(--gold-l)}
+  .ws-head .no{margin-left:auto;font-size:8.5px;color:var(--off)}
+  .ws .who{font-size:9.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ws .cd{font-size:9px;color:var(--ok);min-height:13px}
+  .ws .track{height:5px;background:#000;border:1px solid #2a2320}
+  .ws .track i{display:block;height:100%;width:0;
+    background:linear-gradient(90deg,#6fbf73,#a8e0aa)}
+  .ws.locked{background:#0e0b0a;border-style:dashed;cursor:default;min-height:50px;
+    align-items:center;justify-content:center;color:var(--off);font-size:9.5px;text-align:center}
+  .ws.vacant .stage{background:#141010;border-style:dashed}
+  .ws.vacant .ws-head .ind{color:var(--off)}
+
+  /* 무대: 왼쪽 절반에 작업물 · 그 옆에 캐릭터가 서서 캐는 모션만 반복 */
+  .stage{flex:1;min-height:74px;position:relative;border:1px solid #2a2320;border-radius:2px;
+    overflow:hidden}
+  .stage .ground{position:absolute;left:0;right:0;bottom:0;height:13px;
+    background:linear-gradient(180deg,#2a211a,#191310)}
+  .stage .res{position:absolute;left:5%;bottom:6px;font-size:48px;line-height:1;
+    filter:drop-shadow(0 3px 3px #0009)}
+  .stage .actor{position:absolute;left:52%;bottom:9px;font-size:24px;line-height:1;
+    transform-origin:50% 90%;animation:mine var(--dur,1.8s) ease-in-out infinite;
+    filter:drop-shadow(0 2px 2px #0009)}
+  /* 제자리 채취 모션 — 좌우로 이동하지 않는다 */
+  @keyframes mine{
+    0%,100%{transform:rotate(0deg)   translateY(0)}
+    40%    {transform:rotate(-18deg) translateY(-2px)}
+    56%    {transform:rotate(11deg)  translateY(1px)}
+    72%    {transform:rotate(0deg)   translateY(0)}
+  }
+  .stage .spark{position:absolute;left:42%;bottom:32px;font-size:13px;opacity:0;
+    animation:spark var(--dur,1.8s) ease-out infinite}
+  @keyframes spark{0%,46%{opacity:0}56%{opacity:1;transform:scale(1.2)}
+    78%,100%{opacity:0;transform:translateY(-7px)}}
+  .stage.f-farm  {background:linear-gradient(180deg,#1b2a1d,#101a12)}
+  .stage.f-fish  {background:linear-gradient(180deg,#152535,#0d1a26)}
+  .stage.f-mine  {background:linear-gradient(180deg,#241f1a,#151110)}
+  .stage.f-log   {background:linear-gradient(180deg,#16251a,#0e170f)}
+  .stage.f-hunt  {background:linear-gradient(180deg,#2a2418,#181410)}
+  /* 수확 표시 — 작업물 위로 올라온다 */
+  .stage .pop{position:absolute;left:10%;bottom:12px;font-size:13px;font-weight:700;
+    color:var(--ok);opacity:0;z-index:3;white-space:nowrap;
+    text-shadow:0 1px 3px #000,0 0 5px #000}
+  .stage .pop.go{animation:pop 1.1s ease-out}
+  @keyframes pop{0%{opacity:0;transform:translateY(2px)}18%{opacity:1}
+    100%{opacity:0;transform:translateY(-46px)}}
+
+  /* ═══ 슬롯 상세 오버레이 ═══ */
+  .detail{position:absolute;inset:0;background:#0b0908f7;padding:7px 8px;display:none;
+    flex-direction:column;z-index:6}
+  .detail.on{display:flex}
+  .dt-head{flex:none;display:flex;align-items:center;gap:6px;font-size:11px;color:var(--gold-l);
+    font-weight:700;margin-bottom:5px}
+  .dt-head .close{margin-left:auto;cursor:pointer;color:var(--dim);font-size:13px}
+  .indrow{display:flex;gap:3px;margin-bottom:5px}
+  .indbtn{flex:1;padding:3px 1px;text-align:center;font-size:9px;background:var(--slot);
+    border:1px solid var(--slot-b);border-radius:2px;cursor:pointer;color:var(--txt)}
+  .indbtn.on{border-color:var(--gold);background:#3a2a1c;color:var(--gold-l)}
+  .calc{background:#12100e;border:1px solid #3a2c22;border-radius:2px;padding:4px 6px}
+  .calc .eq{font-size:9px;color:var(--off);border-top:1px dotted #3a2c22;margin-top:3px;padding-top:3px}
+  .nocand{padding:12px 2px;text-align:center;font-size:10px;color:var(--off)}
+
+  /* ═══ 거래소 / 상점 ═══ */
+  .row{display:flex;align-items:center;gap:5px;padding:4px 5px;margin-bottom:3px;
+    background:var(--slot);border:1px solid var(--slot-b);border-left-width:3px;border-radius:2px}
+  .row .ic{width:20px;height:20px;background:#211a17;border:1px solid var(--slot-b);
+    display:grid;place-items:center;font-size:11px;flex:none;border-radius:2px}
+  .row .nm{flex:1;min-width:0}
+  .row .nm b{display:block;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .nm span{font-size:9px;color:var(--dim)}
+  .row .pr{text-align:right;font-size:10.5px;color:var(--gold-l);white-space:nowrap}
+  .row .pr small{display:block;color:var(--dim);font-size:8.5px}
+  .r1{border-left-color:var(--r1)}.r2{border-left-color:var(--r2)}
+  .r3{border-left-color:var(--r3)}.r4{border-left-color:var(--r4)}
+  .r5{border-left-color:var(--r5)}.r6{border-left-color:var(--r6)}
+  /* 설명 문구는 목업 UI에 넣지 않는다 — 기획 메모(📋)에만 적는다 */
+
+  /* ═══ 상시 위젯 ═══ */
+  .widget{position:absolute;display:flex;flex-direction:column;gap:4px;
+    background:#0b0908ee;border:2px solid var(--gold-d);border-radius:3px;padding:5px;
+    box-shadow:0 8px 24px #000c;cursor:move;user-select:none}
+  .wg-top{display:flex;align-items:center;gap:6px}
+  .wg-top b{color:var(--gold-l);font-size:12px}
+  .wg-kpi{margin-left:auto;display:flex;gap:8px;font-size:9.5px;color:var(--dim)}
+  .wg-kpi b{color:var(--gold-l);font-size:10.5px}
+  .strip{display:flex;gap:4px}
+  .strip.vertical{flex-direction:column}
+  /* 미니 슬롯 — 캐릭터 + 수확 표시 + 게이지만. 텍스트 없음 */
+  .mini{position:relative;overflow:hidden;border-radius:2px;background:var(--slot);
+    border:1px solid var(--slot-b);display:grid;place-items:center}
+  .mini.locked{opacity:.35}
+  .mini.locked::after{content:"🔒";position:absolute;inset:0;display:grid;place-items:center;font-size:11px}
+  .mini.top  {width:42px;height:42px}
+  .mini.horiz{width:38px;height:30px}
+  .mini.vert {width:62px;height:26px}
+  .mini .m-actor{font-size:17px;line-height:1;transform-origin:50% 90%;
+    animation:mine var(--dur,1.8s) ease-in-out infinite}
+  .mini.vert .m-actor,.mini.horiz .m-actor{font-size:15px}
+  .mini .m-pop{position:absolute;left:50%;bottom:5px;transform:translate(-50%,0);
+    font-size:10px;font-weight:700;color:var(--ok);opacity:0;z-index:3;white-space:nowrap;
+    text-shadow:0 1px 2px #000,0 0 4px #000}
+  .mini .m-pop.go{animation:mpop 1s ease-out}
+  @keyframes mpop{0%{opacity:0;transform:translate(-50%,0)}20%{opacity:1}
+    100%{opacity:0;transform:translate(-50%,-24px)}}
+  .mini .prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:#000}
+  .mini .prog i{display:block;height:100%;width:0;background:var(--ok)}
+  /* 4시 방향 — 중앙 UI 열기 */
+  .wg-open{position:absolute;right:-11px;bottom:-11px;width:24px;height:24px;border-radius:50%;
+    background:linear-gradient(180deg,#5e3a24,#2e1b12);border:2px solid var(--gold);
+    color:var(--gold-l);display:grid;place-items:center;font-size:12px;cursor:pointer;
+    box-shadow:0 3px 10px #000b;z-index:5}
+  .wg-open:hover{background:linear-gradient(180deg,#7a4c2c,#3c2418)}
+
+  /* ═══ 기획 메모 ═══ */
+  .doc{position:fixed;inset:0;background:#000000ec;z-index:90;display:none;padding:24px;overflow-y:auto}
+  .doc.on{display:block}
+  .doc .inner{max-width:940px;margin:0 auto;background:var(--panel);
+    border:2px solid var(--gold-d);border-radius:4px;padding:18px 22px}
+  .doc h2{font-size:13px;color:var(--gold);margin:18px 0 7px;letter-spacing:1px}
+  .doc h2:first-child{margin-top:0}
+  .doc p{font-size:11.5px;color:var(--dim);margin:6px 0}
+  table{border-collapse:collapse;width:100%;font-size:11.5px}
+  th,td{border:1px solid #3a2c22;padding:5px 8px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:var(--dim);font-weight:600}
+  code{background:#0c0908;padding:1px 4px;border-radius:2px;font-size:10.5px;color:var(--gold-l)}
+  .pill{font-size:9.5px;padding:1px 6px;border-radius:999px;border:1px solid var(--gold-d);color:var(--gold)}
+  .pill.no{border-color:#7a3f3f;color:#e2848b}
+  .docclose{position:fixed;top:16px;right:20px;font-size:20px;color:var(--gold);cursor:pointer;z-index:91}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="ctl">
+    <span class="lb">창</span>
+    <button class="wtog on" data-w="wStore">창고 (왼쪽)</button>
+    <button class="wtog on" data-w="wWork">작업장 (중앙)</button>
+    <button class="wtog on" data-w="wMarket">거래 (오른쪽)</button>
+    <button class="wtog on" data-w="widget">상시 위젯</button>
+    <div class="sep"></div>
+    <span class="lb">위젯 스트립</span>
+    <button class="ori on" data-ori="top">A 탑뷰</button>
+    <button class="ori" data-ori="horiz">B 가로</button>
+    <button class="ori" data-ori="vert">C 세로</button>
+    <div class="sep"></div>
+    <button id="closeAll">창 전부 닫기 (위젯만 남김)</button>
+    <button id="docBtn">📋 기획 메모</button>
+  </div>
+
+  <div class="desk" id="desk">
+    <div class="dicons">
+      <div class="dicon"><i></i>내 PC</div>
+      <div class="dicon"><i></i>휴지통</div>
+    </div>
+
+    <!-- ═══════════ 왼쪽: 창고 (캐릭터 · 장비 · 자원 · 특성) ═══════════ -->
+    <div class="win solo" id="wStore" style="left:18px;top:54px;width:302px;height:560px">
+      <div class="banner">Storage <span class="x" data-close="wStore">✕</span></div>
+      <div class="tabs">
+        <div class="tab on" data-t="char">캐릭터</div>
+        <div class="tab" data-t="equip">장비</div>
+        <div class="tab" data-t="res">자원</div>
+        <div class="tab" data-t="trait">특성</div>
+      </div>
+      <div class="body">
+        <!-- 캐릭터 인벤 -->
+        <div class="pane on" id="p-char">
+          <div class="miniban">보유 캐릭터 <span class="r"><b id="charCount">0</b>명</span></div>
+          <div class="halfgrid scroll"><div class="grid6" id="gChar"></div></div>
+          <div class="halfinfo scroll" id="iChar"></div>
+        </div>
+        <!-- 장비 인벤 -->
+        <div class="pane" id="p-equip">
+          <div class="miniban">보유 장비</div>
+          <div class="halfgrid scroll"><div class="grid6" id="gEquip"></div></div>
+          <div class="halfinfo scroll" id="iEquip"></div>
+        </div>
+        <!-- 자원 인벤 -->
+        <div class="pane" id="p-res">
+          <div class="miniban">채취 산출물</div>
+          <div class="halfgrid scroll"><div class="grid6" id="gRes"></div></div>
+          <div class="halfinfo scroll" id="iRes"></div>
+        </div>
+        <!-- 특성창 -->
+        <div class="pane" id="p-trait">
+          <div class="miniban">액티브</div>
+          <div class="actrow" id="actRow"></div>
+          <div class="ptline">패시브 <b>남은 포인트 <span id="ptLeft">0</span></b></div>
+          <div class="scroll" style="flex:1">
+            <div class="tree" id="tree" style="height:392px">
+              <svg id="treeLines" width="284" height="392"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ 중앙: 상단바 + 작업장 + 하단 버튼 ═══════════ -->
+    <div class="stack" id="wWork" style="left:332px;top:12px;width:396px">
+      <!-- 6. 창 위에 붙는 한 줄 -->
+      <div class="topbar">
+        <div class="owner" id="ownerBtn" title="섬주인 — 계정 레벨과 전역 특성">
+          <div class="ring" id="ownerRing" style="--exp:64%"><span class="face">🧑‍🌾</span></div>
+          <div class="oi"><b>섬주인</b><span>Lv.<span id="accLv">12</span> · 64%</span></div>
+        </div>
+        <div class="wallet"><span class="coin"></span><b class="num" id="goldTop">582,292</b></div>
+        <div class="sysicons">
+          <span title="특성 (왼쪽 창 특성 탭)" id="icTrait">✦</span>
+          <span title="섬 가치 랭킹 — 점수 기준 미확정">🏆</span>
+          <span title="우편">✉</span>
+          <span title="설정">⚙</span>
+          <span title="종료">⏻</span>
+        </div>
+      </div>
+
+      <!-- 본체 높이 = 좌·우 창과 동일(560). 배너 줄이 좌·우 창과 같은 높이에 온다
+           (상단바 42px만 창 위로 더 붙는다 → 좌·우 창 top = 12 + 42 = 54) -->
+      <div class="win" style="height:560px">
+        <div class="banner">Workstation <span class="x" data-close="wWork">✕</span></div>
+        <div class="body">
+          <div class="miniban">작업슬롯
+            <span class="r">가동 <b id="kOpen">0</b>/<b>8</b></span></div>
+          <div class="scroll" style="flex:1"><div class="wsgrid" id="wsgrid"></div></div>
+
+          <!-- 7. 본체 안쪽 아래에 붙는 버튼 줄 -->
+          <div class="hexrow">
+            <div class="hex" data-w="wStore" title="창고 — 왼쪽 창 열기"><i>🧰</i><span>창고</span></div>
+            <div class="hex" data-w="wMarket" title="거래 — 오른쪽 창 열기"><i>⚖</i><span>거래</span></div>
+            <div class="hex off" title="추후 결정"><i>❓</i><span>미정</span></div>
+            <div class="hex off" title="추후 결정"><i>❓</i><span>미정</span></div>
+            <div class="hex off" title="추후 결정"><i>❓</i><span>미정</span></div>
+          </div>
+
+          <!-- 5. 슬롯 상세 (중앙 창 안 오버레이) -->
+          <div class="detail" id="detail">
+            <div class="dt-head">슬롯 <span id="dtNo">1</span> 설정
+              <span class="close" id="dtClose">✕</span></div>
+            <div class="scroll" style="flex:1">
+              <div class="miniban">산업 선택</div>
+              <div class="indrow" id="dtInd"></div>
+
+              <div class="miniban">캐릭터 선택</div>
+              <div id="dtChar"></div>
+
+              <!-- 장비·효율은 캐릭터가 배치된 뒤에만 보인다 -->
+              <div id="dtGear">
+                <div class="miniban">장비</div>
+                <div class="equip" id="dtEquip"></div>
+
+                <div class="miniban">효율 계산</div>
+                <div class="calc" id="dtCalc"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ 오른쪽: 거래소 / 상점 ═══════════ -->
+    <div class="win solo" id="wMarket" style="left:740px;top:54px;width:300px;height:560px">
+      <div class="banner">Market <span class="x" data-close="wMarket">✕</span></div>
+      <div class="tabs">
+        <div class="tab on" data-t="ex">거래소</div>
+        <div class="tab" data-t="shop">상점</div>
+      </div>
+      <div class="body">
+        <div class="pane on" id="p-ex">
+          <div class="scroll" style="flex:1">
+            <div class="miniban">내 등록 <span class="r">3 / 10</span></div>
+            <div class="row r3"><div class="ic">🐟</div>
+              <div class="nm"><b>월척 붕어</b><span>12개 · 2시간 전</span></div>
+              <div class="pr">1,440<small>@120</small></div><button class="btn sell">취소</button></div>
+            <div class="row r5"><div class="ic">🐟</div>
+              <div class="nm"><b>전설의 대물</b><span>1개 · 10분 전</span></div>
+              <div class="pr">18,000<small>@18,000</small></div><button class="btn sell">취소</button></div>
+            <div class="row r2"><div class="ic">🪵</div>
+              <div class="nm"><b>고급 원목</b><span>240개 · 1일 전</span></div>
+              <div class="pr">8,160<small>@34</small></div><button class="btn sell">취소</button></div>
+            <div class="miniban">시세 <span class="r">최근 거래가</span></div>
+            <div class="row r1"><div class="ic">🐟</div>
+              <div class="nm"><b>붕어</b><span>물량 8,412</span></div>
+              <div class="pr">7<small>▼2%</small></div><button class="btn">구매</button></div>
+            <div class="row r2"><div class="ic">🌾</div>
+              <div class="nm"><b>고급 작물</b><span>물량 1,204</span></div>
+              <div class="pr">34<small>▲5%</small></div><button class="btn">구매</button></div>
+            <div class="row r4"><div class="ic">💎</div>
+              <div class="nm"><b>영웅 보석</b><span>물량 37</span></div>
+              <div class="pr">2,600<small>▲11%</small></div><button class="btn">구매</button></div>
+            <div class="row r6"><div class="ic">🌾</div>
+              <div class="nm"><b>신화 변종 작물</b><span>물량 1</span></div>
+              <div class="pr">410,000<small>—</small></div><button class="btn">구매</button></div>
+          </div>
+        </div>
+        <div class="pane" id="p-shop">
+          <div class="scroll" style="flex:1">
+            <div class="miniban">확장</div>
+            <div class="row r5"><div class="ic">➕</div>
+              <div class="nm"><b>작업슬롯 확장권</b><span>다음 슬롯 해금</span></div>
+              <div class="pr">25,000</div><button class="btn" id="buySlot">구매</button></div>
+            <div class="row r3"><div class="ic">🎟</div>
+              <div class="nm"><b>캐릭터 모집 티켓</b><span>캐릭터 1명 획득</span></div>
+              <div class="pr">8,000</div><button class="btn">구매</button></div>
+            <div class="miniban">소모품</div>
+            <div class="row r1"><div class="ic">🧰</div>
+              <div class="nm"><b>장비 강화석</b><span>장비 1개 강화 시도</span></div>
+              <div class="pr">400</div><button class="btn">구매</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ 상시 위젯 ═══════════ -->
+    <div class="widget" id="widget" style="left:332px;bottom:48px">
+      <div class="wg-top">
+        <span class="coin"></span><b class="num">582,292</b>
+        <span class="wg-kpi">
+          <span>가동 <b class="num" id="kActive">0</b>/8</span>
+          <span>시간당 <b class="num" id="kRate">—</b></span>
+          <span>누적 <b class="num" id="kTotal">0</b></span>
+        </span>
+      </div>
+      <div class="strip" id="strip"></div>
+      <div class="wg-open" id="wgOpen" title="중앙 UI 열기">↑</div>
+    </div>
+
+    <div class="taskbar">
+      <div class="tb-btn"></div>
+      <div class="tb-app on" data-w="wStore">Storage</div>
+      <div class="tb-app on" data-w="wWork">Workstation</div>
+      <div class="tb-app on" data-w="wMarket">Market</div>
+      <div class="tb-clock">오후 3:24</div>
+    </div>
+  </div>
+</div>
+
+<!-- 특성 호버 툴팁 (스크롤 컨테이너에 잘리지 않도록 fixed) -->
+<div id="tip"></div>
+
+<!-- ═══ 기획 메모 ═══ -->
+<div class="doc" id="doc">
+  <span class="docclose" id="docClose">✕</span>
+  <div class="inner">
+    <h2>이 목업은 무엇인가</h2>
+    <p><b>2026-07-30-종합제안정리.md</b>를 화면으로 옮긴 것이다.
+      기존 <code>게임UI/게임UI목업.html</code>의 후속이며, 제안이 확정되지 않았으므로
+      <b>이 목업도 제안이다.</b></p>
+
+    <h2>v1에서 바뀐 것</h2>
+    <table>
+      <tr><th style="width:120px">영역</th><th>v1 (게임UI목업.html)</th><th>v2 (이 목업)</th></tr>
+      <tr><td><b>왼쪽 창</b></td><td>캐릭터 상세 1장 (적성·장비·수치)</td>
+        <td><b>4탭 — 캐릭터 · 장비 · 자원 · 특성.</b> 각 탭은 위 절반 격자(스크롤) +
+            아래 절반 정보(스크롤)</td></tr>
+      <tr><td><b>중앙 창</b></td><td>작업슬롯 / 인벤토리 2탭</td>
+        <td><b>작업슬롯 전용.</b> 인벤토리는 왼쪽으로 이동 → 제안서 2.2</td></tr>
+      <tr><td><b>슬롯 표현</b></td><td>텍스트 + 진행 슬라이더</td>
+        <td><b>텍스트 위 / 무대 중간 / 게이지 아래.</b>
+            작업물이 <b>왼쪽 절반</b>을 차지하고 캐릭터는 그 옆에 <b>서서 캐는 모션만</b> 반복한다.
+            판정이 완성되면 작업물 위로 <code>+🐟</code>·<code>+🪵</code>가 올라온다 → 제안서 8.1</td></tr>
+      <tr><td><b>슬롯 클릭</b></td><td>캐릭터 선택 목록(picker)</td>
+        <td><b>슬롯 설정 오버레이</b> — 배치 캐릭터 / 장비 4부위 / 효율 계산 → 제안서 8.1</td></tr>
+      <tr><td><b>특성</b></td><td>없음</td>
+        <td><b>상단 액티브 4칸 + 하단 전역 패시브 트리</b>(호버 툴팁) → 제안서 3.3</td></tr>
+      <tr><td><b>상단바</b></td><td>없음 (위젯에만 골드)</td>
+        <td><b>창 위에 붙는 한 줄</b> — 섬주인 원형(계정 Lv·경험치 링) · 골드 · 시스템 아이콘</td></tr>
+      <tr><td><b>하단</b></td><td>없음</td>
+        <td><b>버튼 5개</b> — 창고(왼쪽 열기) · 거래(오른쪽 열기) · 미정 ×3.
+            창 밖이 아니라 <b>본체 안쪽 아래</b>에 들어간다</td></tr>
+      <tr><td><b>위젯</b></td><td>골드 + 지표 + 스트립(텍스트 라벨)</td>
+        <td><b>미니 슬롯 — 캐릭터 + 수확 표시 + 게이지만.</b> 텍스트 라벨 제거.
+            + <b>4시 방향 ↑ 버튼</b>(중앙 UI 열고/닫기)</td></tr>
+      <tr><td><b>UI 내 설명 문구</b></td><td>패널 안에 기획 주석·경고 박스</td>
+        <td><b>전부 제거.</b> 설명은 이 기획 메모에만 둔다</td></tr>
+      <tr><td><b>세 창 정렬</b></td><td>상단바 + 본체 + 하단 = 좌·우 창 높이</td>
+        <td><b>세 창의 배너 줄(STORAGE · WORKSTATION · MARKET)이 같은 높이에 온다.</b>
+            본체 높이도 셋 다 560이라 아래쪽도 맞는다.
+            <b>상단바(42px)만</b> 중앙 창 위로 더 붙는다 → 좌·우 창 <code>top:54</code></td></tr>
+      <tr><td><b>캐릭터</b></td><td><code>TID 1 '유저 캐릭터'</code> 포함</td>
+        <td><b>제거.</b> 1001~ 일반 캐릭터 + <b>종족(인간·몬스터)</b> → 제안서 3.2 · 7장</td></tr>
+      <tr><td><b>골드</b></td><td>표시만</td>
+        <td>자원 정보창에 <b>즉시 판매 / 거래소 등록</b> 두 갈래 → 제안서 4.2</td></tr>
+    </table>
+
+    <h2>계산은 서버 식을 그대로 쓴다</h2>
+    <p><code>작업속도 = 적성기본값 × (1 + Σ가산) × Π승산</code> —
+      장비·특성·액티브가 모두 <b>가산</b>이고, 개발용 전역 배수 <code>×6.00</code>만 승산이다.
+      카운트다운은 <code>JudgeCost</code>·<code>CurrentWorkSpeed</code>로 클라가 로컬 계산한다.</p>
+    <table>
+      <tr><th style="width:190px">지키고 있는 확정 사항</th><th>내용</th></tr>
+      <tr><td>슬롯당 캐릭터 1명 · 산업 1개</td><td>여러 명을 한 슬롯에 넣지 않는다</td></tr>
+      <tr><td>장비 = 무기1 · 장신구2 · 보석1</td><td>효과는 가산 (일감 T-002)</td></tr>
+      <tr><td>희귀도 6단계 색상</td><td><code>Enum.xlsx</code> 원본값</td></tr>
+      <tr><td>배치를 바꾸면 진행 조각 폐기</td><td>속도 변경 직전 정산 규칙</td></tr>
+      <tr><td>연출은 값의 진실이 아니다</td><td>판정은 서버 권위. 창을 닫으면 그리기를 멈춘다</td></tr>
+    </table>
+
+    <h2>이 목업이 가정한 것 (기획 미확정)</h2>
+    <table>
+      <tr><th style="width:190px">항목</th><th>목업에 넣은 가정</th></tr>
+      <tr><td>액티브 해금 레벨</td><td>Lv.5 작업속도 / 10 골드 / 20 경험치 / 40 드랍률 —
+        <span class="pill no">순서·수치 미정</span> (제안서 10장 #2)</td></tr>
+      <tr><td>액티브 하루 횟수</td><td><b>하루 2회</b> — <span class="pill no">N값 미정</span></td></tr>
+      <tr><td>특성 이름·효과·포인트 비용</td><td>전부 예시. 트리 형태만 보는 용도</td></tr>
+      <tr><td><b>적성 0 캐릭터를 선택창에서 제외</b></td>
+        <td>⚠️ <b>확정 사항과 어긋난다.</b> 작업슬롯 3.4는 "적성 0도 배치 가능(느림) ·
+          배치 UI에서 전부 선택 가능"으로 확정돼 있는데, 이 목업은 <b>제외</b>한다.
+          <span class="pill no">기획 재확인 필요</span></td></tr>
+      <tr><td>산업을 바꿀 때 적성 0이 되면</td>
+        <td>배치된 캐릭터를 <b>자동 해제</b>한다 — 위 규칙과 상태를 맞추기 위한 처리</td></tr>
+      <tr><td>적성 0의 기본 속도</td><td><code>250</code>(0.25배) — <span class="pill no">미정</span>
+        (현재는 선택창에서 제외돼 쓰이지 않는다)</td></tr>
+      <tr><td>빈 슬롯 상세의 기본 산업</td><td><b>농사</b>로 열린다</td></tr>
+      <tr><td>즉시 판매가</td><td><code>BasePrice</code> 그대로 — <span class="pill no">비율 미정</span> (10장 #4)</td></tr>
+      <tr><td>섬 가치 랭킹</td><td>🏆 아이콘만. <span class="pill no">점수 기준 미확정</span> (10장 #1)</td></tr>
+      <tr><td>하단 버튼 3~5번</td><td><span class="pill no">추후 결정</span></td></tr>
+      <tr><td>전역 배수 ×6.00</td><td>개발 편의값. 배포 전 1.0으로 되돌린다 (일감 T-004)</td></tr>
+    </table>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// 서버와 같은 상수
+// ══════════════════════════════════════════════════════════
+const JUDGE_COST = 30*1000*1000;   // WorkStationSlot.JudgeCost (30초 · 작업량 단위)
+const SCALE      = 1000;           // WorkSpeedScale (1000 = 1.0배)
+const GLOBAL_MUL = 6.0;            // Global.GatherSpeedMultiplier — 유일한 승산 (개발용)
+const SLOT_TOTAL = 8;
+let   openSlots  = 3;              // 예시: 열린 슬롯 3개 (2개 배치 + 1개 빈)
+
+const ACC_LV = 12, ACC_EXP = 0.64; // 섬주인(계정) — 배치되지 않는다
+
+const INDUSTRIES=[
+  {id:1,n:'농사',e:'🌾',res:'🌾',fx:'f-farm'},
+  {id:2,n:'낚시',e:'🐟',res:'🏞',fx:'f-fish'},
+  {id:3,n:'채굴',e:'⛏',res:'🪨',fx:'f-mine'},
+  {id:4,n:'벌목',e:'🪵',res:'🌳',fx:'f-log'},
+  {id:5,n:'사냥',e:'🏹',res:'🐗',fx:'f-hunt'},
+];
+// 적성별 기본 작업속도(천분율). 적성 0 = 배치 가능하지만 매우 느림 (2026-07-30). 250은 임의값
+const BASE_SPEED=[250,1000,1250,1500,1800,2100,2450,2800,3200,3600,4000];
+
+// ══════════════════════════════════════════════════════════
+// 캐릭터 — TID 1 '유저 캐릭터' 폐기(영구 결번). 1001~ · 종족 축 추가
+// ══════════════════════════════════════════════════════════
+const CHARS=[
+  {id:1001,n:'어부 미카',   race:'인간',   e:'🎣',lv:7,exp:.42,apt:{1:0,2:6,3:0,4:2,5:0}},
+  {id:1002,n:'광부 톤',     race:'인간',   e:'⛏', lv:5,exp:.18,apt:{1:0,2:0,3:7,4:3,5:1}},
+  {id:1003,n:'숲 고블린',   race:'몬스터', e:'👹',lv:9,exp:.71,apt:{1:1,2:0,3:2,4:7,5:3}},
+  {id:1004,n:'들개',       race:'몬스터', e:'🐺',lv:3,exp:.05,apt:{1:0,2:1,3:0,4:1,5:5}},
+  {id:1005,n:'농부 하니',   race:'인간',   e:'🧑‍🌾',lv:4,exp:.33,apt:{1:6,2:1,3:0,4:2,5:0}},
+  {id:1006,n:'슬라임',     race:'몬스터', e:'🟢',lv:1,exp:.00,apt:{1:2,2:2,3:2,4:2,5:2}},
+];
+
+// ══════════════════════════════════════════════════════════
+// 장비 — 무기1 · 장신구2 · 보석1 (확정). 효과는 가산(천분율)
+// ══════════════════════════════════════════════════════════
+const EQUIPS=[
+  {id:1,n:'참나무 낚싯대',   part:'무기',  r:3,add:150,e:'🎣'},
+  {id:2,n:'강철 도끼',      part:'무기',  r:2,add:120,e:'🪓'},
+  {id:3,n:'광부의 곡괭이',   part:'무기',  r:2,add:110,e:'⛏'},
+  {id:4,n:'사냥꾼의 활',     part:'무기',  r:5,add:220,e:'🏹'},
+  {id:5,n:'바람의 부적',     part:'장신구',r:3,add:80, e:'🧿'},
+  {id:6,n:'낡은 반지',      part:'장신구',r:1,add:30, e:'💍'},
+  {id:7,n:'행운의 목걸이',   part:'장신구',r:4,add:90, e:'📿'},
+  {id:8,n:'근면의 보석',     part:'보석',  r:4,add:120,e:'💠'},
+  {id:9,n:'흐린 보석',      part:'보석',  r:1,add:25, e:'🔹'},
+];
+const PARTS=['무기','장신구','장신구','보석'];
+
+// ══════════════════════════════════════════════════════════
+// 자원 — 채취 산출물. sell = BasePrice (엑셀 추가 예정 컬럼)
+// ══════════════════════════════════════════════════════════
+const RES=[
+  {e:'🐟',n:'붕어',        r:1,q:1284,sell:6,   ind:'낚시'},
+  {e:'🐟',n:'월척 붕어',    r:2,q:312, sell:22,  ind:'낚시'},
+  {e:'🐟',n:'대물 붕어',    r:3,q:47,  sell:120, ind:'낚시'},
+  {e:'🐟',n:'영웅의 대물',  r:4,q:6,   sell:900, ind:'낚시'},
+  {e:'🐟',n:'전설의 대물',  r:5,q:1,   sell:18000,ind:'낚시'},
+  {e:'🌾',n:'밀',          r:1,q:904, sell:5,   ind:'농사'},
+  {e:'🌾',n:'고급 작물',    r:2,q:88,  sell:34,  ind:'농사'},
+  {e:'🪵',n:'통나무',      r:1,q:640, sell:6,   ind:'벌목'},
+  {e:'🪵',n:'고급 원목',    r:2,q:51,  sell:34,  ind:'벌목'},
+  {e:'🪨',n:'돌',          r:1,q:770, sell:4,   ind:'채굴'},
+  {e:'💎',n:'영웅 보석',    r:4,q:3,   sell:2600,ind:'채굴'},
+  {e:'🐗',n:'가죽',        r:1,q:412, sell:7,   ind:'사냥'},
+  {e:'🎟',n:'모집 티켓',    r:3,q:2,   sell:0,   ind:'공통'},
+  {e:'💠',n:'신화의 조각',  r:6,q:1,   sell:410000,ind:'공통'},
+];
+
+// ══════════════════════════════════════════════════════════
+// 특성 — 전역 패시브 트리 + 액티브 4종
+// kind:'speed' 만 작업속도 가산에 들어간다 (add = 레벨당 천분율)
+// ══════════════════════════════════════════════════════════
+const TRAITS=[
+  {id:0,n:'개간의 기초', x:142,y:8,  max:1,lv:1,kind:'speed',add:20, d:'전 산업 작업속도 +2%'},
+  {id:1,n:'근면',       x:71, y:88, max:3,lv:3,kind:'speed',add:30, d:'전 산업 작업속도 +3% / 레벨'},
+  {id:2,n:'안목',       x:213,y:88, max:3,lv:2,kind:'drop', add:10, d:'희귀도 상승 확률 +1% / 레벨'},
+  {id:3,n:'숙련된 손',   x:71, y:168,max:3,lv:2,kind:'speed',add:25, d:'전 산업 작업속도 +2.5% / 레벨'},
+  {id:4,n:'보는 눈',     x:213,y:168,max:3,lv:0,kind:'drop', add:15, d:'희귀도 상승 확률 +1.5% / 레벨'},
+  {id:5,n:'지치지 않는 팔',x:71,y:248,max:5,lv:0,kind:'speed',add:30, d:'전 산업 작업속도 +3% / 레벨'},
+  {id:6,n:'수집가의 감',  x:213,y:248,max:3,lv:0,kind:'drop', add:20, d:'희귀도 상승 확률 +2% / 레벨'},
+  {id:7,n:'섬주인의 관록',x:142,y:328,max:1,lv:0,kind:'speed',add:200,d:'전 산업 작업속도 +20%',need:'선행 특성 양쪽 만렙'},
+];
+const TREE_EDGE=[[0,1],[0,2],[1,3],[3,5],[2,4],[4,6],[5,7],[6,7]];
+const ACC_POINT=12;   // 계정 레벨 = 총 포인트 (가정)
+
+// 액티브 4종 — 계정 레벨 도달 시 자동 해금 · 1회 1시간 · 하루 N회 (N=2 가정)
+const DAILY_MAX=2;
+const ACTIVES=[
+  {id:'spd', n:'작업속도',lvl:5, e:'⚡',add:1000,used:0,on:false,d:'작업속도 +100% · 1시간'},
+  {id:'gold',n:'골드',   lvl:10,e:'💰',add:0,   used:2,on:false,d:'골드 획득 +50% · 1시간'},
+  {id:'exp', n:'경험치', lvl:20,e:'⭐',add:0,   used:0,on:false,d:'경험치 획득 +50% · 1시간'},
+  {id:'drop',n:'드랍률', lvl:40,e:'🎲',add:0,   used:0,on:false,d:'아이템 드랍률 +30% · 1시간'},
+];
+
+// ══════════════════════════════════════════════════════════
+// 슬롯 상태
+// ══════════════════════════════════════════════════════════
+const slots=[];
+for(let i=0;i<SLOT_TOTAL;i++) slots.push({industry:0,charId:0,equip:[0,0,0,0],progress:0,speed:0,pop:0});
+// 슬롯 1 — 낚시 · 어부 미카 (왼쪽 연못 / 오른쪽 캐릭터)
+slots[0]={industry:2,charId:1001,equip:[1,5,0,8],progress:0,speed:0,pop:0};
+// 슬롯 2 — 벌목 · 숲 고블린 (왼쪽 나무 / 오른쪽 몬스터)
+slots[1]={industry:4,charId:1003,equip:[2,6,0,9],progress:0,speed:0,pop:0};
+// 슬롯 3 — 빈 슬롯
+
+let sel=-1, dtSlot=-1, totalHarvest=0, ori='top';
+let dtInd=1;                       // 상세 화면에서 고른 산업 — 빈 슬롯은 항상 농사(1)로 열린다
+let selChar=1001, selEquip=1, selRes=0;
+
+// ══════════════════════════════════════════════════════════
+// 계산 — 작업속도 = 적성기본값 × (1 + Σ가산) × Π승산
+// ══════════════════════════════════════════════════════════
+const traitAdd  = ()=>TRAITS.filter(t=>t.kind==='speed').reduce((s,t)=>s+t.lv*t.add,0);
+const activeAdd = ()=>ACTIVES.filter(a=>a.on).reduce((s,a)=>s+a.add,0);
+const equipAdd  = s=>s.equip.reduce((sum,id)=>sum+(EQUIPS.find(e=>e.id===id)?.add||0),0);
+const usedPoint = ()=>TRAITS.reduce((s,t)=>s+t.lv,0);
+
+function resolveSpeed(slot){
+  const ch=CHARS.find(c=>c.id===slot.charId);
+  if(!ch||!slot.industry) return 0;
+  const base=BASE_SPEED[ch.apt[slot.industry]||0];
+  const add =equipAdd(slot)+traitAdd()+activeAdd();
+  return Math.max(1,Math.floor(base*(SCALE+add)/SCALE*GLOBAL_MUL));
+}
+const cycleSec  = sp=>JUDGE_COST/sp/1000;
+const unlockText= i=>i<5?'Lv.'+((i-2)*5)+' 해금':'해금 조건 미정';
+const pct       = permille=>(permille/10).toFixed(permille%10?1:0)+'%';
+const rarityName= r=>['','일반','고급','희귀','영웅','전설','신화'][r];
+
+// ══════════════════════════════════════════════════════════
+// 창 — 드래그 · 열고 닫기
+// ══════════════════════════════════════════════════════════
+let z=10;
+document.querySelectorAll('.win.solo, .widget, .stack').forEach(box=>{
+  const handle = box.classList.contains('widget') ? box : box.querySelector('.banner');
+  handle.addEventListener('mousedown',e=>{
+    if(e.target.dataset.close||e.target.id==='wgOpen') return;
+    box.style.zIndex=++z;
+    const r=box.getBoundingClientRect(), d=document.getElementById('desk').getBoundingClientRect();
+    const ox=e.clientX-r.left, oy=e.clientY-r.top;
+    box.style.bottom='auto';
+    const move=ev=>{
+      box.style.left=Math.max(0,Math.min(d.width-r.width, ev.clientX-d.left-ox))+'px';
+      box.style.top =Math.max(0,Math.min(d.height-40,     ev.clientY-d.top -oy))+'px';
+    };
+    const up=()=>{document.removeEventListener('mousemove',move);document.removeEventListener('mouseup',up);};
+    document.addEventListener('mousemove',move); document.addEventListener('mouseup',up);
+  });
+});
+function setWin(id,show){
+  const el=document.getElementById(id);
+  el.classList.toggle('hide',!show);
+  if(show) el.style.zIndex=++z;
+  document.querySelectorAll(`[data-w="${id}"]`).forEach(b=>b.classList.toggle('on',show));
+}
+const toggleWin=id=>setWin(id, document.getElementById(id).classList.contains('hide'));
+document.querySelectorAll('[data-w]').forEach(b=>{
+  if(b.classList.contains('off')) return;
+  b.onclick=()=>toggleWin(b.dataset.w);
+});
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=e=>{
+  e.stopPropagation(); setWin(b.dataset.close,false);
+});
+document.getElementById('closeAll').onclick=()=>['wStore','wWork','wMarket'].forEach(id=>setWin(id,false));
+// 7. 위젯 4시 방향 ↑ — 중앙 UI 열고/닫기
+document.getElementById('wgOpen').onclick=e=>{e.stopPropagation();toggleWin('wWork');};
+// 상단바 ✦ — 왼쪽 창 특성 탭 열기
+document.getElementById('icTrait').onclick=()=>{setWin('wStore',true);openTab('wStore','trait');};
+document.getElementById('ownerBtn').onclick=()=>{setWin('wStore',true);openTab('wStore','trait');};
+
+function openTab(winId,t){
+  const box=document.getElementById(winId);
+  box.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.dataset.t===t));
+  box.querySelectorAll('.pane').forEach(x=>x.classList.toggle('on',x.id==='p-'+t));
+}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  openTab(t.closest('.win').id==='wStore'?'wStore':'wMarket', t.dataset.t);
+});
+
+// ══════════════════════════════════════════════════════════
+// 왼쪽 — 캐릭터 인벤 (위 격자 8줄 / 아래 정보)
+// ══════════════════════════════════════════════════════════
+function drawCharTab(){
+  document.getElementById('charCount').textContent=CHARS.length;
+  const placed=id=>slots.findIndex(s=>s.charId===id);
+  document.getElementById('gChar').innerHTML=
+    CHARS.map(c=>{
+      const p=placed(c.id);
+      return `<div class="cell ${selChar===c.id?'sel':''}" data-ch="${c.id}" title="${c.n}">
+        ${c.e}<span class="lv">${c.lv}</span>${p>=0?`<span class="on">●${p+1}</span>`:''}</div>`;
+    }).join('')
+    + Array.from({length:6*8-CHARS.length},()=>'<div class="cell empty"></div>').join('');
+  document.querySelectorAll('[data-ch]').forEach(el=>el.onclick=()=>{selChar=+el.dataset.ch;drawCharTab();});
+
+  const c=CHARS.find(x=>x.id===selChar), p=placed(c.id);
+  const eq = p>=0 ? slots[p].equip : [0,0,0,0];
+  document.getElementById('iChar').innerHTML=`
+    <div class="ihead"><div class="big">${c.e}</div>
+      <div class="t"><b>${c.n}</b><span>${c.race} · Lv.${c.lv}</span></div></div>
+    <div class="stat"><span>경험치</span><b>${(c.exp*100).toFixed(0)}%</b></div>
+    <div class="expbar"><i style="width:${c.exp*100}%"></i></div>
+    <div class="stat"><span>배치</span><b>${p>=0?`슬롯 ${p+1}`:'대기'}</b></div>
+    <div class="miniban">산업 적성</div>
+    ${INDUSTRIES.map(ind=>{
+      const v=c.apt[ind.id]||0;
+      const cells=Array.from({length:10},(_,i)=>`<i class="${i<v?'f':''}"></i>`).join('');
+      const sp=Math.max(1,Math.floor(BASE_SPEED[v]*(SCALE+traitAdd())/SCALE*GLOBAL_MUL));
+      return `<div class="apt ${v?'':'zero'}"><span class="n">${ind.n}</span>
+        <span class="track">${cells}</span>
+        <span class="v">${v} · ${cycleSec(sp).toFixed(1)}초</span></div>`;
+    }).join('')}
+    <div class="miniban">착용 장비</div>
+    <div class="equip">${PARTS.map((pt,i)=>{
+      const e=EQUIPS.find(x=>x.id===eq[i]);
+      return `<div class="eslot ${e?'f'+e.r:''}">${e?e.e:'·'}<span class="tag">${pt}${pt==='장신구'?(i===2?'2':'1'):''}</span></div>`;
+    }).join('')}</div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+// 왼쪽 — 장비 인벤
+// ══════════════════════════════════════════════════════════
+function drawEquipTab(){
+  const worn=id=>slots.findIndex(s=>s.equip.includes(id));
+  document.getElementById('gEquip').innerHTML=
+    EQUIPS.map(e=>{
+      const w=worn(e.id);
+      return `<div class="cell r${e.r} ${selEquip===e.id?'sel':''}" data-eq="${e.id}" title="${e.n}">
+        ${e.e}${w>=0?`<span class="on">●${w+1}</span>`:''}</div>`;
+    }).join('')
+    + Array.from({length:6*8-EQUIPS.length},()=>'<div class="cell empty"></div>').join('');
+  document.querySelectorAll('[data-eq]').forEach(el=>el.onclick=()=>{selEquip=+el.dataset.eq;drawEquipTab();});
+
+  const e=EQUIPS.find(x=>x.id===selEquip), w=worn(e.id);
+  document.getElementById('iEquip').innerHTML=`
+    <div class="ihead"><div class="big" style="border-color:var(--r${e.r})">${e.e}</div>
+      <div class="t"><b>${e.n}</b><span style="color:var(--r${e.r})">${rarityName(e.r)} · ${e.part}</span></div></div>
+    <div class="stat"><span>작업속도</span><b>+${pct(e.add)}</b></div>
+    <div class="stat"><span>착용 중</span><b>${w>=0?`슬롯 ${w+1}`:'없음'}</b></div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+// 왼쪽 — 자원 인벤 (즉시 판매 / 거래소 등록 두 갈래)
+// ══════════════════════════════════════════════════════════
+function drawResTab(){
+  document.getElementById('gRes').innerHTML=
+    RES.map((it,i)=>`<div class="cell r${it.r} ${selRes===i?'sel':''}" data-rs="${i}" title="${it.n}">
+      ${it.e}<span class="q num">${it.q}</span></div>`).join('')
+    + Array.from({length:6*8-RES.length},()=>'<div class="cell empty"></div>').join('');
+  document.querySelectorAll('[data-rs]').forEach(el=>el.onclick=()=>{selRes=+el.dataset.rs;drawResTab();});
+
+  const it=RES[selRes];
+  document.getElementById('iRes').innerHTML=`
+    <div class="ihead"><div class="big" style="border-color:var(--r${it.r})">${it.e}</div>
+      <div class="t"><b>${it.n}</b><span style="color:var(--r${it.r})">${rarityName(it.r)} · ${it.ind}</span></div></div>
+    <div class="stat"><span>보유</span><b class="num">${it.q.toLocaleString()}</b></div>
+    <div class="stat"><span>기준가</span>
+      <b class="num">${it.sell?it.sell.toLocaleString():'—'}</b></div>
+    <div class="stat"><span>전량 즉시 판매</span>
+      <b class="num">${it.sell?(it.sell*it.q).toLocaleString():'—'}</b></div>
+    <div class="acts">
+      <button class="btn wide sell">즉시 판매</button>
+      <button class="btn wide">거래소 등록</button>
+      <button class="btn wide">먹이기</button>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+// 왼쪽 — 특성창 (상단 액티브 4칸 + 하단 트리)
+// ══════════════════════════════════════════════════════════
+function drawActives(){
+  document.getElementById('actRow').innerHTML=ACTIVES.map(a=>{
+    const locked=ACC_LV<a.lvl;
+    const spent =!locked&&a.used>=DAILY_MAX&&!a.on;
+    const cls   =locked?'lock':(a.on?'live':(spent?'spent':''));
+    const foot  =locked?`Lv.${a.lvl}`:(a.on?'가동 중':`오늘 ${a.used}/${DAILY_MAX}`);
+    return `<div class="act ${cls}" data-act="${a.id}"><i>${a.e}</i>
+      <span>${a.n}</span><b>${foot}</b></div>`;
+  }).join('');
+  document.querySelectorAll('[data-act]').forEach(el=>el.onclick=()=>{
+    const a=ACTIVES.find(x=>x.id===el.dataset.act);
+    if(ACC_LV<a.lvl) return;                       // 미해금
+    if(a.on){ a.on=false; }
+    else { if(a.used>=DAILY_MAX) return; a.on=true; a.used++; }
+    refreshSpeeds(); drawActives(); drawWs(); if(dtSlot>=0) drawDetail();
+  });
+}
+
+// 선행 특성(들어오는 간선의 출발 노드)이 전부 만렙인가
+const prereqMet=id=>TREE_EDGE.filter(([,b])=>b===id)
+  .every(([a])=>TRAITS[a].lv>=TRAITS[a].max);
+
+function drawTree(){
+  document.getElementById('ptLeft').textContent=ACC_POINT-usedPoint();
+  const tree=document.getElementById('tree');
+  const svg=document.getElementById('treeLines');
+  svg.innerHTML=TREE_EDGE.map(([a,b])=>{
+    const A=TRAITS[a], B=TRAITS[b];
+    const lit=A.lv>0&&B.lv>0;
+    return `<line x1="${A.x}" y1="${A.y+46}" x2="${B.x}" y2="${B.y}"
+      stroke="${lit?'#e0b45c':'#3a2c22'}" stroke-width="${lit?3:2}" />`;
+  }).join('');
+  tree.querySelectorAll('.tnode').forEach(n=>n.remove());
+  TRAITS.forEach(t=>{
+    const cls=t.lv>=t.max?'max':(t.lv>0?'':(t.need?'lock':'none'));
+    const el=document.createElement('div');
+    el.className='tnode '+cls;
+    el.style.left=t.x+'px'; el.style.top=t.y+'px';
+    el.innerHTML=`${t.kind==='speed'?'⚙':'🔮'}<span class="rk">${t.lv}/${t.max}</span>`;
+    el.onmouseenter=ev=>showTip(ev,t);
+    el.onmousemove =ev=>moveTip(ev);
+    el.onmouseleave=hideTip;
+    el.onclick=()=>{                                 // 포인트로 찍기
+      if(t.lv>=t.max||ACC_POINT-usedPoint()<=0) return;
+      if(t.need&&!prereqMet(t.id)) return;           // 선행 조건 미충족
+      t.lv++; refreshSpeeds(); drawTree(); drawWs(); drawCharTab(); if(dtSlot>=0) drawDetail();
+    };
+    tree.appendChild(el);
+  });
+}
+
+const tip=document.getElementById('tip');
+function showTip(ev,t){
+  const locked=t.lv===0&&t.need;
+  tip.innerHTML=`<b>${t.n}</b>
+    <div class="k">${t.kind==='speed'?'작업속도 (가산)':'희귀도'} · ${t.lv}/${t.max}</div>
+    <div class="e">${t.d}</div>
+    <div class="k" style="margin-top:3px">현재 합계 ${t.lv?'+'+pct(t.lv*t.add):'—'}</div>
+    ${locked?`<div class="lk">🔒 ${t.need}</div>`
+            :(t.lv<t.max?`<div class="k">클릭 = 1포인트 투자</div>`:`<div class="k">만렙</div>`)}`;
+  tip.style.display='block'; moveTip(ev);
+}
+function moveTip(ev){
+  const w=tip.offsetWidth, h=tip.offsetHeight;
+  tip.style.left=Math.min(innerWidth-w-8, ev.clientX+14)+'px';
+  tip.style.top =Math.max(8, Math.min(innerHeight-h-8, ev.clientY-h/2))+'px';
+}
+function hideTip(){tip.style.display='none';}
+
+// ══════════════════════════════════════════════════════════
+// 중앙 — 작업슬롯 (텍스트 위 / 무대 중간 / 게이지 아래)
+// ══════════════════════════════════════════════════════════
+function refreshSpeeds(){ slots.forEach(s=>s.speed=resolveSpeed(s)); }
+
+function drawWs(){
+  document.getElementById('kOpen').textContent=slots.filter((s,i)=>i<openSlots&&s.charId&&s.industry).length;
+  document.getElementById('wsgrid').innerHTML=slots.map((s,i)=>{
+    if(i>=openSlots) return `<div class="ws locked">🔒<br>${unlockText(i)}</div>`;
+    const ind=INDUSTRIES.find(x=>x.id===s.industry), ch=CHARS.find(x=>x.id===s.charId);
+    const live=ind&&ch;
+    const cyc=live?cycleSec(s.speed):0;
+    // 연출 속도는 체감용으로만 쓴다 — 값의 진실은 서버가 정한다
+    const dur=Math.min(3,Math.max(.9,cyc));
+    return `<div class="ws open ${live?'':'vacant'} ${sel===i?'sel':''}" data-s="${i}">
+      <div class="ws-head"><span class="ind">${ind?ind.e+' '+ind.n:'＋ 비어 있음'}</span>
+        <span class="no">${i+1}</span></div>
+      <div class="who">${ch?`${ch.e} ${ch.n} · Lv.${ch.lv}`:'비어 있음'}</div>
+      <div class="stage ${ind?ind.fx:''}" style="--dur:${dur}s">
+        <div class="ground"></div>
+        ${ind?`<span class="res">${ind.res}</span>`:''}
+        ${live?`<span class="actor">${ch.e}</span><span class="spark">✦</span>`:''}
+        <span class="pop" data-pop>${ind?'+'+ind.e:''}</span>
+      </div>
+      <div class="cd" data-cd></div>
+      <div class="track"><i data-fill></i></div></div>`;
+  }).join('');
+  document.querySelectorAll('[data-s]').forEach(el=>el.onclick=()=>{
+    sel=+el.dataset.s; openDetail(sel);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// 중앙 — 슬롯 상세 오버레이 (캐릭터 / 장비 / 효율 계산)
+// ══════════════════════════════════════════════════════════
+function openDetail(i){
+  dtSlot=i;
+  dtInd=slots[i].industry||1;      // 배치가 없으면 농사로 세팅해 연다
+  document.getElementById('dtNo').textContent=i+1;
+  document.getElementById('detail').classList.add('on');
+  drawDetail(); drawWs();
+}
+function closeDetail(){document.getElementById('detail').classList.remove('on');dtSlot=-1;drawWs();}
+document.getElementById('dtClose').onclick=closeDetail;
+
+function drawDetail(){
+  const s=slots[dtSlot];
+
+  // ── 산업 선택 ──
+  document.getElementById('dtInd').innerHTML=INDUSTRIES.map(x=>
+    `<div class="indbtn ${dtInd===x.id?'on':''}" data-di="${x.id}">${x.e}<br>${x.n}</div>`).join('');
+  document.querySelectorAll('[data-di]').forEach(el=>el.onclick=()=>{
+    dtInd=+el.dataset.di;
+    if(s.charId){                                  // 배치된 슬롯이면 산업을 바꾼다
+      const c=CHARS.find(x=>x.id===s.charId);
+      if((c.apt[dtInd]||0)===0){ s.charId=0; s.industry=0; }  // 적성 0은 배치를 유지하지 않는다
+      else s.industry=dtInd;
+      s.progress=0;                                // 배치 변경 → 진행 조각 폐기
+    }
+    refreshSpeeds(); drawDetail(); drawWs(); drawCharTab(); drawStrip();
+  });
+
+  // ── 캐릭터 선택 ──
+  const ch=CHARS.find(c=>c.id===s.charId);
+  const apt=ch?(ch.apt[s.industry]||0):0;
+  if(ch){
+    document.getElementById('dtChar').innerHTML=`
+      <div class="ihead"><div class="big">${ch.e}</div>
+        <div class="t"><b>${ch.n}</b><span>${ch.race} · Lv.${ch.lv} · 적성 ${apt}</span></div>
+        <button class="btn sell" style="margin-left:auto" id="dtOut">해제</button></div>
+      <div class="expbar"><i style="width:${ch.exp*100}%"></i></div>`;
+  }else{
+    // 적성 0인 캐릭터와 이미 배치된 캐릭터는 목록에서 제외한다
+    const cands=CHARS.filter(c=>(c.apt[dtInd]||0)>0 && !slots.some(x=>x.charId===c.id));
+    document.getElementById('dtChar').innerHTML = cands.length ? cands.map(c=>{
+        const a=c.apt[dtInd];
+        const sp=Math.max(1,Math.floor(BASE_SPEED[a]*(SCALE+traitAdd()+activeAdd())/SCALE*GLOBAL_MUL));
+        return `<div class="row r2"><div class="ic">${c.e}</div>
+          <div class="nm"><b>${c.n}</b><span>${c.race} · Lv.${c.lv} · 적성 ${a}</span></div>
+          <div class="pr">${cycleSec(sp).toFixed(1)}초<small>${(sp/SCALE).toFixed(2)}배</small></div>
+          <button class="btn" data-din="${c.id}">배치</button></div>`;
+      }).join('')
+      : `<div class="nocand">배치할 수 있는 캐릭터가 없다</div>`;
+  }
+  document.querySelectorAll('[data-din]').forEach(el=>el.onclick=()=>{
+    s.industry=dtInd; s.charId=+el.dataset.din; s.progress=0; selChar=s.charId;
+    refreshSpeeds(); drawDetail(); drawWs(); drawCharTab(); drawStrip();
+  });
+  const out=document.getElementById('dtOut');
+  if(out) out.onclick=()=>{
+    // 해제하면 산업까지 비워 완전한 빈 슬롯으로 되돌린다
+    s.charId=0; s.industry=0; s.progress=0;
+    refreshSpeeds(); drawDetail(); drawWs(); drawCharTab(); drawStrip();
+  };
+
+  // ── 장비 · 효율 계산: 캐릭터가 배치된 슬롯에서만 보인다 ──
+  const gear=document.getElementById('dtGear');
+  gear.classList.toggle('hide',!ch);
+  if(!ch) return;
+
+  document.getElementById('dtEquip').innerHTML=PARTS.map((pt,i)=>{
+    const e=EQUIPS.find(x=>x.id===s.equip[i]);
+    return `<div class="eslot ${e?'f'+e.r:''}" title="${e?e.n+' · +'+pct(e.add):pt+' 비어 있음'}">
+      ${e?e.e:'·'}<span class="tag">${pt}${pt==='장신구'?(i===2?'2':'1'):''}</span></div>`;
+  }).join('');
+
+  // 효율 계산 — 서버 식 그대로
+  const base=ch&&s.industry?BASE_SPEED[apt]:0;
+  const eAdd=equipAdd(s), tAdd=traitAdd(), aAdd=activeAdd();
+  const sum =eAdd+tAdd+aAdd, cur=s.speed;
+  document.getElementById('dtCalc').innerHTML=`
+    <div class="stat"><span>적성 기본값</span>
+      <b>${base?(base/SCALE).toFixed(2)+'배':'—'}</b></div>
+    <div class="stat"><span>장비 가산</span><b>+${pct(eAdd)}</b></div>
+    <div class="stat"><span>특성 가산</span><b>+${pct(tAdd)}</b></div>
+    <div class="stat"><span>액티브 부스트</span><b style="color:${aAdd?'var(--ok)':'var(--off)'}">${aAdd?'+'+pct(aAdd):'—'}</b></div>
+    <div class="stat"><span>전역 배수</span><b>×6.00</b></div>
+    <div class="stat"><span>현재 작업속도</span>
+      <b style="color:var(--ok)">${cur?(cur/SCALE).toFixed(2)+'배':'—'}</b></div>
+    <div class="stat"><span>실효 주기</span>
+      <b style="color:var(--ok)">${cur?cycleSec(cur).toFixed(2)+'초':'—'}</b></div>
+    <div class="eq">${base
+      ? `${(base/SCALE).toFixed(2)} × (1 + ${(sum/SCALE).toFixed(2)}) × 6.00 = ${(cur/SCALE).toFixed(2)}배 → 30 ÷ ${(cur/SCALE).toFixed(2)} = ${cycleSec(cur).toFixed(2)}초`
+      : '—'}</div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+// 위젯 스트립
+// ══════════════════════════════════════════════════════════
+function drawStrip(){
+  const strip=document.getElementById('strip');
+  strip.className='strip'+(ori==='vert'?' vertical':'');
+  const show=Math.max(3,openSlots);
+  // 미니 슬롯: 캐릭터 + 수확 표시 + 게이지만. 텍스트는 넣지 않는다
+  strip.innerHTML=Array.from({length:show},(_,i)=>{
+    const s=slots[i], locked=i>=openSlots;
+    const ind=INDUSTRIES.find(x=>x.id===s.industry), ch=CHARS.find(x=>x.id===s.charId);
+    const live=!locked&&ind&&ch;
+    const dur=live?Math.min(3,Math.max(.9,cycleSec(s.speed))):1.8;
+    return `<div class="mini ${ori} ${locked?'locked':''}" data-m="${i}" style="--dur:${dur}s">
+      ${live?`<span class="m-actor">${ch.e}</span>`:''}
+      <span class="m-pop" data-mpop>${ind?'+'+ind.e:''}</span>
+      <span class="prog"><i data-fill></i></span></div>`;
+  }).join('');
+}
+document.querySelectorAll('.ori').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.ori').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); ori=b.dataset.ori; drawStrip();
+});
+
+// 상점 — 슬롯 확장권
+document.getElementById('buySlot').onclick=()=>{
+  if(openSlots<SLOT_TOTAL){ openSlots++; drawWs(); drawStrip(); }
+};
+document.getElementById('docBtn').onclick=()=>document.getElementById('doc').classList.add('on');
+document.getElementById('docClose').onclick=()=>document.getElementById('doc').classList.remove('on');
+
+// ══════════════════════════════════════════════════════════
+// 틱 — 진행도 누적 (서버 ConsumeJudgeCount와 같은 식)
+//   누적작업량 += 경과 × 속도  /  판정 = floor(누적 / 1판정비용)
+// ══════════════════════════════════════════════════════════
+let last=performance.now();
+function tick(now){
+  const dt=now-last; last=now;
+  let active=0, perHour=0;
+  slots.forEach((s,i)=>{
+    if(i>=openSlots||!(s.industry&&s.charId)) return;
+    active++; perHour+=3600/cycleSec(s.speed);
+    s.progress+=dt*s.speed;
+    while(s.progress>=JUDGE_COST){ s.progress-=JUDGE_COST; totalHarvest++; s.pop=now; }
+  });
+  document.getElementById('kActive').textContent=active;
+  document.getElementById('kRate').textContent=Math.round(perHour).toLocaleString();
+  document.getElementById('kTotal').textContent=totalHarvest.toLocaleString();
+
+  document.querySelectorAll('.ws[data-s]').forEach(el=>{
+    const s=slots[+el.dataset.s], on=s.industry&&s.charId;
+    const f=el.querySelector('[data-fill]'), cd=el.querySelector('[data-cd]');
+    if(f) f.style.width=(on?s.progress/JUDGE_COST*100:0).toFixed(1)+'%';
+    if(cd) cd.textContent=on?((JUDGE_COST-s.progress)/s.speed/1000).toFixed(1)+'초 후 수확':'';
+    const p=el.querySelector('[data-pop]');
+    if(p&&on&&now-s.pop<60&&!p.classList.contains('go')){
+      p.classList.add('go'); setTimeout(()=>p.classList.remove('go'),1000);
+    }
+  });
+  document.querySelectorAll('.mini[data-m]').forEach(el=>{
+    const s=slots[+el.dataset.m], on=s.industry&&s.charId;
+    el.querySelectorAll('[data-fill]').forEach(f=>
+      f.style.width=(on?s.progress/JUDGE_COST*100:0).toFixed(1)+'%');
+    const p=el.querySelector('[data-mpop]');
+    if(p&&on&&now-s.pop<60&&!p.classList.contains('go')){
+      p.classList.add('go'); setTimeout(()=>p.classList.remove('go'),1000);
+    }
+  });
+  requestAnimationFrame(tick);
+}
+
+// ══════════════════════════════════════════════════════════
+refreshSpeeds();
+drawCharTab(); drawEquipTab(); drawResTab(); drawActives(); drawTree();
+drawWs(); drawStrip();
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>

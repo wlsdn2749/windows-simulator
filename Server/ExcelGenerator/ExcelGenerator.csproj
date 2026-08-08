@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <!-- 엑셀 원본은 저장소 루트의 GameDesign\Excel 로 분리됨(툴 소스에 두지 않는다) -->
+      <Folder Include="Output\Code\" />
+      <Folder Include="Output\Data\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- 생성 산출물은 이 프로젝트에 컴파일하지 않는다.
+           (Row 클래스는 MemoryPack을 참조하므로 ExcelDataPacker에서만 컴파일) -->
+      <Compile Remove="Output\**\*.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="ClosedXML" Version="0.105.0" />
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.6.0" />
+      <!-- 생성 코드를 런타임에 인메모리 컴파일해 .bytes를 직렬화하기 위한 MemoryPack 런타임(Core) -->
+      <PackageReference Include="MemoryPack" Version="1.21.4" />
+      <!-- 런타임 컴파일 시 구동할 MemoryPack 소스 제너레이터. analyzer로는 쓰지 않고 DLL만 확보한다. -->
+      <PackageReference Include="MemoryPack.Generator" Version="1.21.4" GeneratePathProperty="true" ExcludeAssets="all" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- 제너레이터 DLL을 출력 폴더로 복사 → 런타임에 AppContext.BaseDirectory 기준으로 로드한다. -->
+      <None Include="$(PkgMemoryPack_Generator)\analyzers\dotnet\cs\MemoryPack.Generator.dll"
+            CopyToOutputDirectory="PreserveNewest" Link="MemoryPack.Generator.dll" Visible="false" />
+    </ItemGroup>
+
+</Project>

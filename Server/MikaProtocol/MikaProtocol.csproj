@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <!--
+      패킷 정의(계약) 공유 프로젝트. 빌드되면 .cs가 Unity로 단방향 미러링된다(아래 Target).
+      ⚠️ LangVersion을 9로 낮출 수 없다: MemoryPack 소스 생성기가 scoped 수정자(C# 11)를 방출해
+         C# 9에서는 CS8987이 78건 발생한다. 미러 대상이지만 11을 유지한다.
+         (미러되는 것은 손으로 쓴 .cs뿐이고, 생성기 산출물 obj/는 Unity로 가지 않는다.
+          Unity는 자체 MemoryPack 패키지로 포매터를 다시 생성한다.)
+         → 손으로 쓰는 패킷 정의는 C# 9 문법 범위를 지킬 것. 컴파일러가 잡아주지 않는다.
+    -->
+    <PropertyGroup>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>11</LangVersion>
+        <TargetFrameworks>netstandard2.1;net9.0</TargetFrameworks>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MemoryPack" Version="1.21.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MikaNetwork.Lib\MikaNetwork.Core\MikaNetwork.Core.csproj" />
+      <ProjectReference Include="..\MikaNetwork.Lib\MikaSourceGen\MikaSourceGen.csproj"
+                        OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+      <ProjectReference Include="..\MikaNetwork.Lib\MikaUtils\MikaUtils.csproj" />
+    </ItemGroup>
+
+    <!-- 빌드되면 패킷 정의(.cs)를 Unity 클라이언트로 단방향 미러링한다.
+         멀티 타깃이라 net9.0 한 번만 실행해 중복을 막는다.
+         CI 러너에는 갱신할 Unity 프로젝트가 없고 powershell.exe도 없으므로 건너뛴다. -->
+    <Target Name="SyncProtocolToUnity" AfterTargets="Build"
+            Condition="'$(TargetFramework)' == 'net9.0' AND '$(ContinuousIntegrationBuild)' != 'true'">
+        <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\sync-protocol-to-unity.ps1&quot;"
+              ContinueOnError="true" />
+    </Target>
+
+</Project>

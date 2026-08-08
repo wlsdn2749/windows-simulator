@@ -1,0 +1,252 @@
+[
+  {
+    "IndustryLevelTID": 101,
+    "IndustryType": "Farming",
+    "Level": 1,
+    "Name": "텃밭",
+    "RequiredScore": 30000,
+    "RequiredAptitude": 0,
+    "RequiredAccountLevel": 0,
+    "Description": "판정 1회 — 적성1 30초 / 적성10 7.5초"
+  },
+  {
+    "IndustryLevelTID": 102,
+    "IndustryType": "Farming",
+    "Level": 2,
+    "Name": "밭",
+    "RequiredScore": 90000,
+    "RequiredAptitude": 3,
+    "RequiredAccountLevel": 5,
+    "Description": "판정 1회 — 적성1 1분 30초 / 적성10 22.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 103,
+    "IndustryType": "Farming",
+    "Level": 3,
+    "Name": "농장",
+    "RequiredScore": 270000,
+    "RequiredAptitude": 5,
+    "RequiredAccountLevel": 15,
+    "Description": "판정 1회 — 적성1 4분 30초 / 적성10 1분 7.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 104,
+    "IndustryType": "Farming",
+    "Level": 4,
+    "Name": "대농장",
+    "RequiredScore": 810000,
+    "RequiredAptitude": 7,
+    "RequiredAccountLevel": 30,
+    "Description": "판정 1회 — 적성1 13분 30초 / 적성10 3분 22.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 105,
+    "IndustryType": "Farming",
+    "Level": 5,
+    "Name": "신성한 대지",
+    "RequiredScore": 2430000,
+    "RequiredAptitude": 9,
+    "RequiredAccountLevel": 50,
+    "Description": "판정 1회 — 적성1 40분 30초 / 적성10 10분 7.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 201,
+    "IndustryType": "Fishing",
+    "Level": 1,
+    "Name": "개울",
+    "RequiredScore": 30000,
+    "RequiredAptitude": 0,
+    "RequiredAccountLevel": 0,
+    "Description": "판정 1회 — 적성1 30초 / 적성10 7.5초"
+  },
+  {
+    "IndustryLevelTID": 202,
+    "IndustryType": "Fishing",
+    "Level": 2,
+    "Name": "저수지",
+    "RequiredScore": 90000,
+    "RequiredAptitude": 3,
+    "RequiredAccountLevel": 5,
+    "Description": "판정 1회 — 적성1 1분 30초 / 적성10 22.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 203,
+    "IndustryType": "Fishing",
+    "Level": 3,
+    "Name": "강 하류",
+    "RequiredScore": 270000,
+    "RequiredAptitude": 5,
+    "RequiredAccountLevel": 15,
+    "Description": "판정 1회 — 적성1 4분 30초 / 적성10 1분 7.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 204,
+    "IndustryType": "Fishing",
+    "Level": 4,
+    "Name": "호수",
+    "RequiredScore": 810000,
+    "RequiredAptitude": 7,
+    "RequiredAccountLevel": 30,
+    "Description": "판정 1회 — 적성1 13분 30초 / 적성10 3분 22.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 205,
+    "IndustryType": "Fishing",
+    "Level": 5,
+    "Name": "심해",
+    "RequiredScore": 2430000,
+    "RequiredAptitude": 9,
+    "RequiredAccountLevel": 50,
+    "Description": "판정 1회 — 적성1 40분 30초 / 적성10 10분 7.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 301,
+    "IndustryType": "Mining",
+    "Level": 1,
+    "Name": "노천 광산",
+    "RequiredScore": 30000,
+    "RequiredAptitude": 0,
+    "RequiredAccountLevel": 0,
+    "Description": "판정 1회 — 적성1 30초 / 적성10 7.5초"
+  },
+  {
+    "IndustryLevelTID": 302,
+    "IndustryType": "Mining",
+    "Level": 2,
+    "Name": "갱도",
+    "RequiredScore": 90000,
+    "RequiredAptitude": 3,
+    "RequiredAccountLevel": 5,
+    "Description": "판정 1회 — 적성1 1분 30초 / 적성10 22.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 303,
+    "IndustryType": "Mining",
+    "Level": 3,
+    "Name": "심층 갱도",
+    "RequiredScore": 270000,
+    "RequiredAptitude": 5,
+    "RequiredAccountLevel": 15,
+    "Description": "판정 1회 — 적성1 4분 30초 / 적성10 1분 7.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 304,
+    "IndustryType": "Mining",
+    "Level": 4,
+    "Name": "지하 대공동",
+    "RequiredScore": 810000,
+    "RequiredAptitude": 7,
+    "RequiredAccountLevel": 30,
+    "Description": "판정 1회 — 적성1 13분 30초 / 적성10 3분 22.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 305,
+    "IndustryType": "Mining",
+    "Level": 5,
+    "Name": "심연",
+    "RequiredScore": 2430000,
+    "RequiredAptitude": 9,
+    "RequiredAccountLevel": 50,
+    "Description": "판정 1회 — 적성1 40분 30초 / 적성10 10분 7.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 401,
+    "IndustryType": "Logging",
+    "Level": 1,
+    "Name": "잡목림",
+    "RequiredScore": 30000,
+    "RequiredAptitude": 0,
+    "RequiredAccountLevel": 0,
+    "Description": "판정 1회 — 적성1 30초 / 적성10 7.5초"
+  },
+  {
+    "IndustryLevelTID": 402,
+    "IndustryType": "Logging",
+    "Level": 2,
+    "Name": "소나무 숲",
+    "RequiredScore": 90000,
+    "RequiredAptitude": 3,
+    "RequiredAccountLevel": 5,
+    "Description": "판정 1회 — 적성1 1분 30초 / 적성10 22.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 403,
+    "IndustryType": "Logging",
+    "Level": 3,
+    "Name": "참나무 숲",
+    "RequiredScore": 270000,
+    "RequiredAptitude": 5,
+    "RequiredAccountLevel": 15,
+    "Description": "판정 1회 — 적성1 4분 30초 / 적성10 1분 7.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 404,
+    "IndustryType": "Logging",
+    "Level": 4,
+    "Name": "흑림",
+    "RequiredScore": 810000,
+    "RequiredAptitude": 7,
+    "RequiredAccountLevel": 30,
+    "Description": "판정 1회 — 적성1 13분 30초 / 적성10 3분 22.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 405,
+    "IndustryType": "Logging",
+    "Level": 5,
+    "Name": "세계수 뿌리",
+    "RequiredScore": 2430000,
+    "RequiredAptitude": 9,
+    "RequiredAccountLevel": 50,
+    "Description": "판정 1회 — 적성1 40분 30초 / 적성10 10분 7.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 501,
+    "IndustryType": "Hunting",
+    "Level": 1,
+    "Name": "들판",
+    "RequiredScore": 30000,
+    "RequiredAptitude": 0,
+    "RequiredAccountLevel": 0,
+    "Description": "판정 1회 — 적성1 30초 / 적성10 7.5초"
+  },
+  {
+    "IndustryLevelTID": 502,
+    "IndustryType": "Hunting",
+    "Level": 2,
+    "Name": "야산",
+    "RequiredScore": 90000,
+    "RequiredAptitude": 3,
+    "RequiredAccountLevel": 5,
+    "Description": "판정 1회 — 적성1 1분 30초 / 적성10 22.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 503,
+    "IndustryType": "Hunting",
+    "Level": 3,
+    "Name": "깊은 숲",
+    "RequiredScore": 270000,
+    "RequiredAptitude": 5,
+    "RequiredAccountLevel": 15,
+    "Description": "판정 1회 — 적성1 4분 30초 / 적성10 1분 7.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 504,
+    "IndustryType": "Hunting",
+    "Level": 4,
+    "Name": "설산",
+    "RequiredScore": 810000,
+    "RequiredAptitude": 7,
+    "RequiredAccountLevel": 30,
+    "Description": "판정 1회 — 적성1 13분 30초 / 적성10 3분 22.5초 · 해금 요구치는 임시값(T-016)"
+  },
+  {
+    "IndustryLevelTID": 505,
+    "IndustryType": "Hunting",
+    "Level": 5,
+    "Name": "마수의 영역",
+    "RequiredScore": 2430000,
+    "RequiredAptitude": 9,
+    "RequiredAccountLevel": 50,
+    "Description": "판정 1회 — 적성1 40분 30초 / 적성10 10분 7.5초 · 해금 요구치는 임시값(T-016)"
+  }
+]

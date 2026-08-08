@@ -1,0 +1,268 @@
+[
+  {
+    "DropTID": 4101,
+    "IndustryLevel": 1,
+    "ItemTID": 40001,
+    "Weight": 6590,
+    "Description": "돌덩어리"
+  },
+  {
+    "DropTID": 4102,
+    "IndustryLevel": 1,
+    "ItemTID": 40002,
+    "Weight": 2000,
+    "Description": "구리 광석"
+  },
+  {
+    "DropTID": 4103,
+    "IndustryLevel": 1,
+    "ItemTID": 40003,
+    "Weight": 1000,
+    "Description": "은광석"
+  },
+  {
+    "DropTID": 4104,
+    "IndustryLevel": 1,
+    "ItemTID": 40004,
+    "Weight": 300,
+    "Description": "금광석"
+  },
+  {
+    "DropTID": 4105,
+    "IndustryLevel": 1,
+    "ItemTID": 40005,
+    "Weight": 100,
+    "Description": "보석 원석"
+  },
+  {
+    "DropTID": 4106,
+    "IndustryLevel": 1,
+    "ItemTID": 40006,
+    "Weight": 10,
+    "Description": "심연의 원석"
+  },
+  {
+    "DropTID": 4201,
+    "IndustryLevel": 2,
+    "ItemTID": 40011,
+    "Weight": 6590,
+    "Description": "석회암"
+  },
+  {
+    "DropTID": 4202,
+    "IndustryLevel": 2,
+    "ItemTID": 40012,
+    "Weight": 2000,
+    "Description": "주석 광석"
+  },
+  {
+    "DropTID": 4203,
+    "IndustryLevel": 2,
+    "ItemTID": 40013,
+    "Weight": 1000,
+    "Description": "철광석"
+  },
+  {
+    "DropTID": 4204,
+    "IndustryLevel": 2,
+    "ItemTID": 40014,
+    "Weight": 300,
+    "Description": "백금 광석"
+  },
+  {
+    "DropTID": 4205,
+    "IndustryLevel": 2,
+    "ItemTID": 40015,
+    "Weight": 100,
+    "Description": "청옥 원석"
+  },
+  {
+    "DropTID": 4206,
+    "IndustryLevel": 2,
+    "ItemTID": 40016,
+    "Weight": 10,
+    "Description": "지맥의 결정"
+  },
+  {
+    "DropTID": 4207,
+    "IndustryLevel": 2,
+    "ItemTID": 40001,
+    "Weight": 1000,
+    "Description": "돌덩어리 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 4208,
+    "IndustryLevel": 2,
+    "ItemTID": 40002,
+    "Weight": 300,
+    "Description": "구리 광석 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 4301,
+    "IndustryLevel": 3,
+    "ItemTID": 40021,
+    "Weight": 6590,
+    "Description": "현무암"
+  },
+  {
+    "DropTID": 4302,
+    "IndustryLevel": 3,
+    "ItemTID": 40022,
+    "Weight": 2000,
+    "Description": "아연 광석"
+  },
+  {
+    "DropTID": 4303,
+    "IndustryLevel": 3,
+    "ItemTID": 40023,
+    "Weight": 1000,
+    "Description": "미스릴 광석"
+  },
+  {
+    "DropTID": 4304,
+    "IndustryLevel": 3,
+    "ItemTID": 40024,
+    "Weight": 300,
+    "Description": "홍옥 원석"
+  },
+  {
+    "DropTID": 4305,
+    "IndustryLevel": 3,
+    "ItemTID": 40025,
+    "Weight": 100,
+    "Description": "흑요석 결정"
+  },
+  {
+    "DropTID": 4306,
+    "IndustryLevel": 3,
+    "ItemTID": 40026,
+    "Weight": 10,
+    "Description": "대지의 핵"
+  },
+  {
+    "DropTID": 4307,
+    "IndustryLevel": 3,
+    "ItemTID": 40001,
+    "Weight": 700,
+    "Description": "돌덩어리 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 4308,
+    "IndustryLevel": 3,
+    "ItemTID": 40002,
+    "Weight": 200,
+    "Description": "구리 광석 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 4401,
+    "IndustryLevel": 4,
+    "ItemTID": 40031,
+    "Weight": 6590,
+    "Description": "수정 파편"
+  },
+  {
+    "DropTID": 4402,
+    "IndustryLevel": 4,
+    "ItemTID": 40032,
+    "Weight": 2000,
+    "Description": "코발트 광석"
+  },
+  {
+    "DropTID": 4403,
+    "IndustryLevel": 4,
+    "ItemTID": 40033,
+    "Weight": 1000,
+    "Description": "오리하르콘 광석"
+  },
+  {
+    "DropTID": 4404,
+    "IndustryLevel": 4,
+    "ItemTID": 40034,
+    "Weight": 300,
+    "Description": "자수정 원석"
+  },
+  {
+    "DropTID": 4405,
+    "IndustryLevel": 4,
+    "ItemTID": 40035,
+    "Weight": 100,
+    "Description": "별빛 광석"
+  },
+  {
+    "DropTID": 4406,
+    "IndustryLevel": 4,
+    "ItemTID": 40036,
+    "Weight": 10,
+    "Description": "공동의 심장"
+  },
+  {
+    "DropTID": 4407,
+    "IndustryLevel": 4,
+    "ItemTID": 40001,
+    "Weight": 400,
+    "Description": "돌덩어리 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 4408,
+    "IndustryLevel": 4,
+    "ItemTID": 40002,
+    "Weight": 100,
+    "Description": "구리 광석 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 4501,
+    "IndustryLevel": 5,
+    "ItemTID": 40041,
+    "Weight": 6590,
+    "Description": "심연의 파편"
+  },
+  {
+    "DropTID": 4502,
+    "IndustryLevel": 5,
+    "ItemTID": 40042,
+    "Weight": 2000,
+    "Description": "암흑 광석"
+  },
+  {
+    "DropTID": 4503,
+    "IndustryLevel": 5,
+    "ItemTID": 40043,
+    "Weight": 1000,
+    "Description": "아다만트 광석"
+  },
+  {
+    "DropTID": 4504,
+    "IndustryLevel": 5,
+    "ItemTID": 40044,
+    "Weight": 300,
+    "Description": "심연의 수정"
+  },
+  {
+    "DropTID": 4505,
+    "IndustryLevel": 5,
+    "ItemTID": 40045,
+    "Weight": 100,
+    "Description": "용해된 별의 조각"
+  },
+  {
+    "DropTID": 4506,
+    "IndustryLevel": 5,
+    "ItemTID": 40046,
+    "Weight": 10,
+    "Description": "세계의 축"
+  },
+  {
+    "DropTID": 4507,
+    "IndustryLevel": 5,
+    "ItemTID": 40001,
+    "Weight": 200,
+    "Description": "돌덩어리 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 4508,
+    "IndustryLevel": 5,
+    "ItemTID": 40002,
+    "Weight": 50,
+    "Description": "구리 광석 — Lv1 하위 혼입"
+  }
+]

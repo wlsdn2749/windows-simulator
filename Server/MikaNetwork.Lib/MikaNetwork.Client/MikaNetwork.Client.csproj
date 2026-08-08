@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>9</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MikaNetwork.Core\MikaNetwork.Core.csproj" />
+      <!-- MikaProtocol은 게임 패킷 정의라 Lib 밖(Server/)에 있다. -->
+      <ProjectReference Include="..\..\MikaProtocol\MikaProtocol.csproj" />
+    </ItemGroup>
+
+</Project>

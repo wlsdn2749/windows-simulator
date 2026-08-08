@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <IsPackable>false</IsPackable>
+        <Nullable>enable</Nullable>
+        <!-- Unity가 쓰는 Roslyn 언어 버전과 맞춘다. C# 10 문법(record struct 등)이
+             섞여 들어가면 Unity에서 제너레이터가 동작하지 않으므로 9로 고정한다. -->
+        <LangVersion>9</LangVersion>
+
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <IsRoslynComponent>true</IsRoslynComponent>
+
+        <!-- 단일 내부 규칙(MIKA001)이라 analyzer release tracking 파일은 두지 않는다 -->
+        <NoWarn>$(NoWarn);RS2008</NoWarn>
+        
+        <RootNamespace>MikaSourceGen</RootNamespace>
+        <PackageId>MikaSourceGen</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.0"/>
+    </ItemGroup>
+
+    <!--
+      빌드된 분석기 DLL을 Unity로 복사한다(MikaProtocol의 정의 미러링과 같은 취지).
+
+      Unity는 이 DLL을 RoslynAnalyzer 라벨로 로드해 MIKA001(핸들러 누락) 경고를 낸다.
+      수동 복사로 두면 서버 쪽 제너레이터만 갱신되고 Unity는 옛 DLL을 계속 쓰게 되는데,
+      그 상태는 "서버 빌드에선 경고가 뜨는데 Unity에선 안 뜬다"로 나타나 원인을 찾기 어렵다.
+
+      Unity 에디터가 켜져 있으면 DLL이 잠겨 복사에 실패할 수 있다.
+      빌드까지 깨뜨릴 이유는 없으므로 ContinueOnError로 넘어간다(Unity를 닫고 다시 빌드하면 된다).
+      .meta는 Unity가 GUID를 유지하며 관리하므로 복사하지 않는다.
+    -->
+    <!-- CI 러너에는 갱신할 Unity 프로젝트가 없다. -->
+    <Target Name="SyncAnalyzerToUnity" AfterTargets="Build"
+            Condition="'$(ContinuousIntegrationBuild)' != 'true'">
+        <Copy SourceFiles="$(TargetPath)"
+              DestinationFolder="$(MSBuildProjectDirectory)\..\..\..\Assets\Plugins\Analyzers\"
+              SkipUnchangedFiles="true"
+              ContinueOnError="true" />
+    </Target>
+
+</Project>

@@ -1,0 +1,57 @@
+[
+  {
+    "WorkSpeedTID": 0,
+    "BaseWorkSpeedPermille": 0,
+    "Description": "배치 불가 — 이 산업을 다루지 못한다"
+  },
+  {
+    "WorkSpeedTID": 1,
+    "BaseWorkSpeedPermille": 1000,
+    "Description": "기준. 30.0초"
+  },
+  {
+    "WorkSpeedTID": 2,
+    "BaseWorkSpeedPermille": 1250,
+    "Description": "24.0초"
+  },
+  {
+    "WorkSpeedTID": 3,
+    "BaseWorkSpeedPermille": 1500,
+    "Description": "20.0초"
+  },
+  {
+    "WorkSpeedTID": 4,
+    "BaseWorkSpeedPermille": 1800,
+    "Description": "16.7초"
+  },
+  {
+    "WorkSpeedTID": 5,
+    "BaseWorkSpeedPermille": 2100,
+    "Description": "14.3초"
+  },
+  {
+    "WorkSpeedTID": 6,
+    "BaseWorkSpeedPermille": 2450,
+    "Description": "12.2초"
+  },
+  {
+    "WorkSpeedTID": 7,
+    "BaseWorkSpeedPermille": 2800,
+    "Description": "10.7초"
+  },
+  {
+    "WorkSpeedTID": 8,
+    "BaseWorkSpeedPermille": 3200,
+    "Description": "9.4초"
+  },
+  {
+    "WorkSpeedTID": 9,
+    "BaseWorkSpeedPermille": 3600,
+    "Description": "8.3초"
+  },
+  {
+    "WorkSpeedTID": 10,
+    "BaseWorkSpeedPermille": 4000,
+    "Description": "7.5초 (최대 4배)"
+  }
+]

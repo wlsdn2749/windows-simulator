@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <RootNamespace>WSGameServer</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MikaNetwork.Lib\MikaNetwork.Server\MikaNetwork.Server.csproj" />
+      <ProjectReference Include="..\MikaProtocol\MikaProtocol.csproj" />
+      <ProjectReference Include="..\MikaNetwork.Lib\MikaNetwork.Core\MikaNetwork.Core.csproj" />
+      <!-- 엑셀에서 생성된 게임 데이터 테이블(Row/Enum/GameTable) -->
+      <ProjectReference Include="..\GameData\GameData.csproj" />
+      <ProjectReference Include="..\MikaNetwork.Lib\MikaSourceGen\MikaSourceGen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+      <ProjectReference Include="..\MikaNetwork.Lib\MikaUtils\MikaUtils.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- User 생성자는 internal이다. "생성은 반드시 UserManager.CreateUser를 통해서만"이라는
+           규칙을 운영에서는 유지하면서 테스트에서만 조립할 수 있게 연다. -->
+      <InternalsVisibleTo Include="WSGameServer.Tests" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.79" />
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.9" />
+      <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="SQLite" Version="3.13.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- 엑셀에서 패킹된 테이블 바이너리를 실행 폴더(Data/)로 복사한다. GameTable.LoadAll이 여기서 읽는다. -->
+      <Content Include="..\Shared\Data\*.bytes" Link="Data\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+</Project>

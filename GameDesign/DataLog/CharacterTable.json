@@ -1,0 +1,62 @@
+[
+  {
+    "CharacterTID": 1001,
+    "Name": "램볼",
+    "Farming": 1,
+    "Fishing": 1,
+    "Mining": 1,
+    "Logging": 1,
+    "Hunting": 1,
+    "Description": "시작 지급. 전 산업 1 — 어떤 산업이든 시작할 수 있어야 한다"
+  },
+  {
+    "CharacterTID": 1002,
+    "Name": "치키피",
+    "Farming": 3,
+    "Fishing": 0,
+    "Mining": 1,
+    "Logging": 2,
+    "Hunting": 0,
+    "Description": "농사 담당"
+  },
+  {
+    "CharacterTID": 1003,
+    "Name": "펭구렛",
+    "Farming": 1,
+    "Fishing": 3,
+    "Mining": 0,
+    "Logging": 0,
+    "Hunting": 2,
+    "Description": "낚시 담당"
+  },
+  {
+    "CharacterTID": 1004,
+    "Name": "캐티바",
+    "Farming": 2,
+    "Fishing": 0,
+    "Mining": 3,
+    "Logging": 1,
+    "Hunting": 1,
+    "Description": "채굴 담당"
+  },
+  {
+    "CharacterTID": 1005,
+    "Name": "리프몽",
+    "Farming": 1,
+    "Fishing": 1,
+    "Mining": 0,
+    "Logging": 3,
+    "Hunting": 0,
+    "Description": "벌목 담당"
+  },
+  {
+    "CharacterTID": 1006,
+    "Name": "폭스파크스",
+    "Farming": 0,
+    "Fishing": 2,
+    "Mining": 1,
+    "Logging": 0,
+    "Hunting": 3,
+    "Description": "사냥 담당"
+  }
+]

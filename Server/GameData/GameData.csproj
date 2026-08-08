@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!--
+      엑셀에서 생성되는 "데이터 정의(계약)" 공유 프로젝트.
+      - Enum.cs / Tables/*.cs (Row) / GameTable.cs / TableSet.cs 만 포함한다(전부 자동 생성).
+      - MikaProtocol과 동일하게 netstandard2.1(Unity)·net9.0(서버)로 멀티타깃하고,
+        빌드되면 정의(.cs)를 Unity로 단방향 미러링한다(파이프라인 generate-tables.ps1 3단계).
+      - Packer/*.cs(툴 전용)와 *.bytes(런타임 데이터)는 여기에 포함하지 않는다.
+      - Unity(C# 9)로 미러링되므로 생성 코드는 C# 9 문법 범위를 벗어나지 않는다.
+
+      ⚠️ LangVersion을 9로 낮출 수 없다: Row 클래스의 [MemoryPackable] 때문에 MemoryPack
+         소스 생성기가 static abstract 구현·scoped 수정자(C# 11)를 방출하고,
+         C# 9에서는 CS8703/CS8987이 발생한다. MikaProtocol도 동일한 이유로 11이다.
+         (생성기 산출물 obj/는 Unity로 가지 않는다. Unity는 자체 MemoryPack 패키지로 다시 생성한다.)
+
+         → 따라서 서버 빌드는 C# 9 규약 위반을 잡아주지 못한다.
+           대신 generate-tables.ps1이 미러 대상 .cs를 스캔해 신문법을 차단한다.
+    -->
+    <PropertyGroup>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>11</LangVersion>
+        <TargetFrameworks>netstandard2.1;net9.0</TargetFrameworks>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- MikaProtocol과 동일 버전 유지(Unity 측 MemoryPack과 호환) -->
+        <PackageReference Include="MemoryPack" Version="1.21.4" />
+    </ItemGroup>
+
+</Project>

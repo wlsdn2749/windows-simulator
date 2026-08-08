@@ -1,0 +1,268 @@
+[
+  {
+    "DropTID": 5101,
+    "IndustryLevel": 1,
+    "ItemTID": 50001,
+    "Weight": 6590,
+    "Description": "질긴 고기"
+  },
+  {
+    "DropTID": 5102,
+    "IndustryLevel": 1,
+    "ItemTID": 50002,
+    "Weight": 2000,
+    "Description": "토끼 가죽"
+  },
+  {
+    "DropTID": 5103,
+    "IndustryLevel": 1,
+    "ItemTID": 50003,
+    "Weight": 1000,
+    "Description": "늑대 가죽"
+  },
+  {
+    "DropTID": 5104,
+    "IndustryLevel": 1,
+    "ItemTID": 50004,
+    "Weight": 300,
+    "Description": "곰 모피"
+  },
+  {
+    "DropTID": 5105,
+    "IndustryLevel": 1,
+    "ItemTID": 50005,
+    "Weight": 100,
+    "Description": "거대한 뿔"
+  },
+  {
+    "DropTID": 5106,
+    "IndustryLevel": 1,
+    "ItemTID": 50006,
+    "Weight": 10,
+    "Description": "마수의 심장"
+  },
+  {
+    "DropTID": 5201,
+    "IndustryLevel": 2,
+    "ItemTID": 50011,
+    "Weight": 6590,
+    "Description": "여우 가죽"
+  },
+  {
+    "DropTID": 5202,
+    "IndustryLevel": 2,
+    "ItemTID": 50012,
+    "Weight": 2000,
+    "Description": "멧돼지 엄니"
+  },
+  {
+    "DropTID": 5203,
+    "IndustryLevel": 2,
+    "ItemTID": 50013,
+    "Weight": 1000,
+    "Description": "사슴뿔"
+  },
+  {
+    "DropTID": 5204,
+    "IndustryLevel": 2,
+    "ItemTID": 50014,
+    "Weight": 300,
+    "Description": "산군의 발톱"
+  },
+  {
+    "DropTID": 5205,
+    "IndustryLevel": 2,
+    "ItemTID": 50015,
+    "Weight": 100,
+    "Description": "백호의 털"
+  },
+  {
+    "DropTID": 5206,
+    "IndustryLevel": 2,
+    "ItemTID": 50016,
+    "Weight": 10,
+    "Description": "산신의 인장"
+  },
+  {
+    "DropTID": 5207,
+    "IndustryLevel": 2,
+    "ItemTID": 50001,
+    "Weight": 1000,
+    "Description": "질긴 고기 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 5208,
+    "IndustryLevel": 2,
+    "ItemTID": 50002,
+    "Weight": 300,
+    "Description": "토끼 가죽 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 5301,
+    "IndustryLevel": 3,
+    "ItemTID": 50021,
+    "Weight": 6590,
+    "Description": "표범 가죽"
+  },
+  {
+    "DropTID": 5302,
+    "IndustryLevel": 3,
+    "ItemTID": 50022,
+    "Weight": 2000,
+    "Description": "큰뿔 사슴뿔"
+  },
+  {
+    "DropTID": 5303,
+    "IndustryLevel": 3,
+    "ItemTID": 50023,
+    "Weight": 1000,
+    "Description": "곰의 이빨"
+  },
+  {
+    "DropTID": 5304,
+    "IndustryLevel": 3,
+    "ItemTID": 50024,
+    "Weight": 300,
+    "Description": "숲괴수의 발톱"
+  },
+  {
+    "DropTID": 5305,
+    "IndustryLevel": 3,
+    "ItemTID": 50025,
+    "Weight": 100,
+    "Description": "고대 짐승의 뼈"
+  },
+  {
+    "DropTID": 5306,
+    "IndustryLevel": 3,
+    "ItemTID": 50026,
+    "Weight": 10,
+    "Description": "숲 지배자의 눈"
+  },
+  {
+    "DropTID": 5307,
+    "IndustryLevel": 3,
+    "ItemTID": 50001,
+    "Weight": 700,
+    "Description": "질긴 고기 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 5308,
+    "IndustryLevel": 3,
+    "ItemTID": 50002,
+    "Weight": 200,
+    "Description": "토끼 가죽 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 5401,
+    "IndustryLevel": 4,
+    "ItemTID": 50031,
+    "Weight": 6590,
+    "Description": "설표 가죽"
+  },
+  {
+    "DropTID": 5402,
+    "IndustryLevel": 4,
+    "ItemTID": 50032,
+    "Weight": 2000,
+    "Description": "얼음늑대 송곳니"
+  },
+  {
+    "DropTID": 5403,
+    "IndustryLevel": 4,
+    "ItemTID": 50033,
+    "Weight": 1000,
+    "Description": "서리곰 모피"
+  },
+  {
+    "DropTID": 5404,
+    "IndustryLevel": 4,
+    "ItemTID": 50034,
+    "Weight": 300,
+    "Description": "빙룡의 비늘"
+  },
+  {
+    "DropTID": 5405,
+    "IndustryLevel": 4,
+    "ItemTID": 50035,
+    "Weight": 100,
+    "Description": "설산 주인의 뿔"
+  },
+  {
+    "DropTID": 5406,
+    "IndustryLevel": 4,
+    "ItemTID": 50036,
+    "Weight": 10,
+    "Description": "영구동토의 심장"
+  },
+  {
+    "DropTID": 5407,
+    "IndustryLevel": 4,
+    "ItemTID": 50001,
+    "Weight": 400,
+    "Description": "질긴 고기 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 5408,
+    "IndustryLevel": 4,
+    "ItemTID": 50002,
+    "Weight": 100,
+    "Description": "토끼 가죽 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 5501,
+    "IndustryLevel": 5,
+    "ItemTID": 50041,
+    "Weight": 6590,
+    "Description": "마수의 가죽"
+  },
+  {
+    "DropTID": 5502,
+    "IndustryLevel": 5,
+    "ItemTID": 50042,
+    "Weight": 2000,
+    "Description": "마물의 뿔"
+  },
+  {
+    "DropTID": 5503,
+    "IndustryLevel": 5,
+    "ItemTID": 50043,
+    "Weight": 1000,
+    "Description": "흉수의 송곳니"
+  },
+  {
+    "DropTID": 5504,
+    "IndustryLevel": 5,
+    "ItemTID": 50044,
+    "Weight": 300,
+    "Description": "마수왕의 갈기"
+  },
+  {
+    "DropTID": 5505,
+    "IndustryLevel": 5,
+    "ItemTID": 50045,
+    "Weight": 100,
+    "Description": "심연수의 눈"
+  },
+  {
+    "DropTID": 5506,
+    "IndustryLevel": 5,
+    "ItemTID": 50046,
+    "Weight": 10,
+    "Description": "마신의 파편"
+  },
+  {
+    "DropTID": 5507,
+    "IndustryLevel": 5,
+    "ItemTID": 50001,
+    "Weight": 200,
+    "Description": "질긴 고기 — Lv1 하위 혼입"
+  },
+  {
+    "DropTID": 5508,
+    "IndustryLevel": 5,
+    "ItemTID": 50002,
+    "Weight": 50,
+    "Description": "토끼 가죽 — Lv1 하위 혼입"
+  }
+]
